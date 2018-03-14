@@ -13,10 +13,10 @@ input:focus, select:focus, textarea:focus{
     box-shadow: 0 0 5px #256cc6;
 }
 select{
-    width: calc(100% - 18px);
+    width: 100%;
 }
 input, textarea{
-    width: calc(100% - 40px);
+    width: calc(100% - 13px); 
 }
 
 .frm-x1{
