@@ -1,0 +1,66 @@
+input, select, textarea{
+    font-size: 1.4rem;
+    padding: 5px;
+    border: 1px solid #aaa;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+}
+input:focus, select:focus, textarea:focus{
+    border: 1px solid #256cc6;
+    box-shadow: 0 0 5px #256cc6;
+}
+select{
+    width: calc(100% - 18px);
+}
+input, textarea{
+    width: calc(100% - 40px);
+}
+
+.frm-x1{
+    width: 100%;
+}
+.frm-x2, .frm-x3{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.frm-x1 .form-group{
+    width: 100%;
+}
+.frm-x2 .form-group{
+    width: 49%;
+}
+.frm-x3 .form-group{
+    width: 32%;
+}
+.form-group{
+    margin-bottom: 10px;
+}
+.form-group label {
+    display: block;
+    font-size: 1.4rem;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+button{
+    display: block;
+    padding: 10px 30px;
+    background: #256cc6;
+    color: #000;
+    outline: 0;
+    margin: 0 auto;
+}
+.frm-arr-ico{
+    color: #256cc6;
+    cursor: pointer;
+    font-size: 20px;
+}
+.main-title{
+    color: #256cc6;
+    width: 100%;
+    text-align: center;
+    font-size: 16px; 
+}
