@@ -12,6 +12,7 @@ pipelines:
           - node
         script: # Modify the commands below to build your repository.
           - npm install
+          - npm rebuild node-sass --force
     - step:
        name: Deploy to Azure
        deployment: Staging
