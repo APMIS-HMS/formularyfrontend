@@ -18,7 +18,9 @@ pipelines:
        caches:
          - node
        script:
-       - npm rebuild node-sass --force
-       - npm run build
-          - git push https://stardayftp:starday%4001@formulary.scm.azurewebsites.net/formulary.git
+       - apt-get update
+       - apt-get install ncftp
+       - npm run build -prod
+       - cd ./dist
+       - ncftpput -v -u "$FTP_USERNAME" -p "$FTP_PASSWORD" -R $FTP_HOST /site/wwwroot *
          
