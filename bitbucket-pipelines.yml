@@ -18,6 +18,7 @@ pipelines:
        caches:
          - node
        script:
+       - npm rebuild node-sass --force
        - npm run build
           - git push https://stardayftp:starday%4001@formulary.scm.azurewebsites.net/formulary.git
          
