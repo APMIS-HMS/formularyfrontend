@@ -18,5 +18,5 @@ pipelines:
        caches:
          - node
        script:
-          - git push https://stardayftp:starday01@formulary.scm.azurewebsites.net/formulary.git
+          - git push https://stardayftp:starday@01@formulary.scm.azurewebsites.net/formulary.git
          
