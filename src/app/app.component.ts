@@ -9,6 +9,8 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 
 export class AppComponent {
 
+  suggest = false;
+
   constructor(private formBuilder: FormBuilder){}
 
   public frm_newProduct: FormGroup;
@@ -18,7 +20,7 @@ export class AppComponent {
   ngOnInit() {
     this.frm_newProduct = this.formBuilder.group({
       productName: ['', [<any>Validators.required]],
-      brand: ['', [<any>Validators.required]],
+      productType: ['', [<any>Validators.required]],
       company: ['', [<any>Validators.required, Validators.minLength(3)]],
       form: [''],
       route: [''],
@@ -38,6 +40,13 @@ export class AppComponent {
       variantSize: [''],
       variantUnit: [''],
     });
+  }
+
+  onKeydown(){
+    this.suggest = true;
+  }
+  suggestion_click(){
+    this.suggest = false;
   }
 
 }

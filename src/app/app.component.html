@@ -1,83 +1,112 @@
 <div class="frm-main">
-    <div class="main-title">Create Product</div>
-    <form novalidate [formGroup]="frm_newProduct">
-        <div class="form-group">
-            <label for="productName">Product Name</label>
-            <input formControlName="productName" type="text" class="form-control" required>
-        </div>
-        <div class="frm-x2">
+    <div class="main-minor-wrap">
+        <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
+        <div class="main-title">Search Product</div>
+        <!-- <form novalidate [formGroup]="frm_newProduct">
             <div class="form-group">
-                <label for="brand">Brand</label>
-                <input formControlName="brand" type="text" class="form-control" required>
+                <label for="productName">Product Name</label>
+                <input formControlName="productName" type="text" class="form-control" required>
             </div>
-
-            <div class="form-group">
-                <label for="company">Company</label>
-                <input formControlName="company" type="text" class="form-control" required>
-            </div>
-        </div>
-        <div class="frm-x2">
-            <div class="form-group">
-                <label for="form">Form</label>
-                <select formControlName="form">
-          <option value="Tablet">Tablet</option>
-          <option value="Syrup">Syrup</option>
-        </select>
-            </div>
-            <div class="form-group">
-                <label for="route">Route</label>
-                <select formControlName="route">
-          <option value="Oral">Oral</option>
-        </select>
-            </div>
-        </div>
-
-        <form novalidate [formGroup]="ingredientForm">
-            <div class="sub-title">Active Ingredient</div>
-            <div class="frm-x3">
-                <div class="form-group">
-                    <label for="ingredientName">Name</label>
-                    <input formControlName="ingredientName" type="text" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="ingredientSize">Size</label>
-                    <input formControlName="ingredientSize" type="number" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="ingredientUnit">Unit</label>
-                    <select formControlName="ingredientUnit">
-            <option value="mg">mg</option>
-            <option value="ml">ml</option>
-          </select>
-                </div>
-
-                <i class="fa fa-plus frm-arr-ico"></i>
-            </div>
-        </form>
-
-        <form novalidate [formGroup]="variantsForm">
-            <div class="sub-title">Variant</div>
             <div class="frm-x2">
-
                 <div class="form-group">
-                    <label for="variantSize">Size</label>
-                    <input formControlName="variantSize" type="number" class="form-control" required>
+                    <label for="brand">Brand</label>
+                    <input formControlName="brand" type="text" class="form-control" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="variantUnit">Unit</label>
-                    <select formControlName="variantUnit">
-            <option value="mg">mg</option>
-            <option value="ml">ml</option>
-          </select>
+                    <label for="company">Company</label>
+                    <input formControlName="company" type="text" class="form-control" required>
                 </div>
-                <i class="fa fa-plus frm-arr-ico"></i>
             </div>
+            <div class="frm-x2">
+                <div class="form-group">
+                    <label for="form">Form</label>
+                    <select formControlName="form">
+            <option value="Tablet">Tablet</option>
+            <option value="Syrup">Syrup</option>
+            </select>
+                </div>
+                <div class="form-group">
+                    <label for="route">Route</label>
+                    <select formControlName="route">
+            <option value="Oral">Oral</option>
+            </select>
+                </div>
+            </div>
+
+            <form novalidate [formGroup]="ingredientForm">
+                <div class="sub-title">Active Ingredient</div>
+                <div class="frm-x3">
+                    <div class="form-group">
+                        <label for="ingredientName">Name</label>
+                        <input formControlName="ingredientName" type="text" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ingredientSize">Size</label>
+                        <input formControlName="ingredientSize" type="number" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ingredientUnit">Unit</label>
+                        <select formControlName="ingredientUnit">
+                <option value="mg">mg</option>
+                <option value="ml">ml</option>
+            </select>
+                    </div>
+
+                    <i class="fa fa-plus frm-arr-ico"></i>
+                </div>
+            </form>
+
+            <form novalidate [formGroup]="variantsForm">
+                <div class="sub-title">Variant</div>
+                <div class="frm-x2">
+
+                    <div class="form-group">
+                        <label for="variantSize">Size</label>
+                        <input formControlName="variantSize" type="number" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="variantUnit">Unit</label>
+                        <select formControlName="variantUnit">
+                <option value="mg">mg</option>
+                <option value="ml">ml</option>
+            </select>
+                    </div>
+                    <i class="fa fa-plus frm-arr-ico"></i>
+                </div>
+            </form>
+
+        </form> -->
+
+        <form novalidate [formGroup]="frm_newProduct">
+            <div class="frm-x2">
+                <div class="form-group">
+                    <label for="productType">Product Type</label>
+                    <select formControlName="productType">
+                        <option value="Tablet">Tablet</option>
+                        <option value="Syrup">Syrup</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input formControlName="productName" (keydown)="onKeydown()" type="text" class="form-control" required>
+
+                    <ul *ngIf="suggest" class="input-sugestions">
+                        <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                    </ul>
+                </div>
+            </div>
+
         </form>
 
-    </form>
-
-    <button>Save</button>
+        <button>Save</button>
+    </div>
 </div>
