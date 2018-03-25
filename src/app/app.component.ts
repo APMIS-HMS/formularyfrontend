@@ -21,13 +21,13 @@ export class AppComponent {
     this.frm_newProduct = this.formBuilder.group({
       productName: ['', [<any>Validators.required]],
       productType: ['', [<any>Validators.required]],
-      company: ['', [<any>Validators.required, Validators.minLength(3)]],
-      form: [''],
-      route: [''],
-      ingredientName: [''],
+      brand: ['', [<any>Validators.required]],
+      drugForm: ['', [<any>Validators.required]],
+      ingrident: ['', [<any>Validators.required]],
+      route: ['', [<any>Validators.required]],
       manufacturer: ['', [<any>Validators.required]],
-      genericName: [''],
-      facilityId: ['', [<any>Validators.required]],
+      frequency: ['', [<any>Validators.required]],
+      unit: ['', [<any>Validators.required]],
     });
 
     this.ingredientForm = this.formBuilder.group({
