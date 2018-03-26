@@ -1,12 +1,19 @@
 .frm-main{
     width: 80%;
+    height: 100vh;
     margin: 0 auto;
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 form{
     width: 100%;
     padding: 10px;
-    border: 1px solid #777;
-    margin-bottom: 10px;
+    margin: 10px 0;
     box-sizing: border-box;
+}
+.frm-x2-post{
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
 }
