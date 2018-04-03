@@ -2,39 +2,38 @@
     <div class="main-minor-wrap">
         <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
         <div class="main-title">Search Product</div>
-        
+
         <form novalidate [formGroup]="frm_newProduct">
             <div class="frm-x2">
                 <div class="form-group">
                     <label for="productType">Product Type</label>
                     <select formControlName="productType">
-                        <option value="Tablet">Tablet</option>
-                        <option value="Syrup">Syrup</option>
+                        <option *ngFor="let productType of productTypes" value="Tablet">{{productType.name}}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="productName">Product Name</label>
-                    <input formControlName="productName" (keydown)="onKeydown()" type="text" class="form-control" required>
+                    <input formControlName="productName" (keydown)="onProductKeydown()" type="text" class="form-control" required>
 
-                    <ul *ngIf="suggest" class="input-sugestions">
-                        <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                    <ul *ngIf="productSuggest" class="input-sugestions">
+                        <!-- <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                         <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
                         <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
                         <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li> -->
                     </ul>
                 </div>
             </div>
 
             <div class="seperator"></div>
 
-            <div class="enclosed-inputs">
+            <div *ngIf="!productSuggest" class="enclosed-inputs">
                 <div class="frm-x2">
                     <div class="form-group">
                         <label for="brand">Brand Name</label>
                         <input formControlName="brand" (keydown)="onKeydown()" type="text" class="form-control" required>
-    
+
                         <ul *ngIf="suggest" class="input-sugestions">
                             <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                             <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
@@ -46,7 +45,7 @@
                     <div class="form-group">
                         <label for="drugForm">Drug Form</label>
                         <input formControlName="drugForm" (keydown)="onKeydown()" type="text" class="form-control" required>
-    
+
                         <ul *ngIf="suggest" class="input-sugestions">
                             <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                             <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
@@ -60,7 +59,7 @@
                     <div class="form-group" style="width:85%;">
                         <label for="ingrident">Ingrident and Strength</label>
                         <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
-        
+
                         <ul *ngIf="suggest" class="input-sugestions">
                             <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                             <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>

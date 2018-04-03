@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
+import { ProductTypeService } from './services/product-type.service';
+import { ProductService } from './services/product.service';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
+  productTypes: any;
   suggest = false;
+  productSuggest = false;
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder, private productService: ProductService,
+  private productTypeService: ProductTypeService) { }
 
   public frm_newProduct: FormGroup;
   public ingredientForm: FormGroup;
@@ -40,12 +45,34 @@ export class AppComponent {
       variantSize: [''],
       variantUnit: [''],
     });
+
+    this.frm_newProduct.controls['productName'].valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(value => {
+      this.productService.find({ name: { $regex: value, '$options': 'i' } }).then(payload => {
+        if (payload.data.length > 1) {
+          this.productSuggest = true;
+        } else {
+          this.productSuggest = false;
+        }
+      });
+    });
+    this.getProductTypes();
+  }
+  onProductKeydown() {
+  //  return this.productSuggest;
   }
 
-  onKeydown(){
+  getProductTypes() {
+    this.productTypeService.find({query: { }}).then(payload => {
+      this.productTypes = payload.data;
+    });
+  }
+  onKeydown() {
     this.suggest = true;
   }
-  suggestion_click(){
+  suggestion_click() {
     this.suggest = false;
   }
 
