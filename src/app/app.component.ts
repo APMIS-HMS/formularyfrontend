@@ -3,20 +3,26 @@ import { ProductService } from './services/product.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { BrandService } from './services/brand.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-
 export class AppComponent implements OnInit {
-
+  brandSuggest: boolean;
   productTypes: any;
   suggest = false;
   productSuggest = false;
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductService,
-  private productTypeService: ProductTypeService) { }
+  brands: any[] = [];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private productService: ProductService,
+    private productTypeService: ProductTypeService,
+    private brandService: BrandService
+  ) {}
 
   public frm_newProduct: FormGroup;
   public ingredientForm: FormGroup;
@@ -32,40 +38,67 @@ export class AppComponent implements OnInit {
       route: ['', [<any>Validators.required]],
       manufacturer: ['', [<any>Validators.required]],
       frequency: ['', [<any>Validators.required]],
-      unit: ['', [<any>Validators.required]],
+      unit: ['', [<any>Validators.required]]
     });
 
     this.ingredientForm = this.formBuilder.group({
       ingredientName: [''],
       ingredientSize: ['', [<any>Validators.required]],
-      ingredientUnit: [''],
+      ingredientUnit: ['']
     });
 
     this.variantsForm = this.formBuilder.group({
       variantSize: [''],
-      variantUnit: [''],
+      variantUnit: ['']
     });
 
-    this.frm_newProduct.controls['productName'].valueChanges.pipe(
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe(value => {
-      this.productService.find({ name: { $regex: value, '$options': 'i' } }).then(payload => {
-        if (payload.data.length > 1) {
-          this.productSuggest = true;
-        } else {
-          this.productSuggest = false;
-        }
+    this.frm_newProduct.controls['productName'].valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(value => {
+        this.productService.find({ query: { search: value } }).then(payload => {
+          if (payload.data.length > 1) {
+            this.productSuggest = true;
+          } else {
+            this.productSuggest = false;
+          }
+        });
       });
-    });
+
+    this.frm_newProduct.controls['brand'].valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(value => {
+        this.brandService
+          .find({
+            query: {
+              search: value,
+              $limit: 300
+            }
+          })
+          .then(payload => {
+            console.log(payload);
+            if (payload.status === 'success' && payload.data.data.length > 1) {
+              console.log(payload.data.data);
+              this.brandSuggest = true;
+              this.brands = payload.data.data;
+            } else {
+              this.brandSuggest = false;
+              this.brands = [];
+            }
+          });
+      });
+
     this.getProductTypes();
   }
   onProductKeydown() {
-  //  return this.productSuggest;
+    //  return this.productSuggest;
+  }
+
+  onBrandKeydown() {
+
   }
 
   getProductTypes() {
-    this.productTypeService.find({query: { }}).then(payload => {
+    this.productTypeService.find({ query: {} }).then(payload => {
       this.productTypes = payload.data;
     });
   }
@@ -76,4 +109,7 @@ export class AppComponent implements OnInit {
     this.suggest = false;
   }
 
+  brand_suggestion_click() {
+    this.brandSuggest = false;
+  }
 }
