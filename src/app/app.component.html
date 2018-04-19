@@ -1,6 +1,6 @@
 <div class="frm-main">
     <div class="main-minor-wrap">
-        <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary:Apmis</span></div>
+        <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
         <div class="main-title">Search Product</div>
 
         <form novalidate [formGroup]="frm_newProduct">
@@ -30,42 +30,45 @@
 
             <div *ngIf="!productSuggest" class="enclosed-inputs">
                 <div class="frm-x2">
-                    <div class="form-group">
+                    <div class="form-group" style="width:100%;">
                         <label for="brand">Brand Name</label>
                         <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
 
                         <ul *ngIf="brandSuggest" class="input-sugestions">
-                            <li *ngFor="let brand of brands" (click)="brand_suggestion_click()" class="input-sugestion">{{brand.STR}}</li>
-                        </ul>
-                    </div>
-                    <div class="form-group">
-                        <label for="drugForm">Drug Form</label>
-                        <input formControlName="drugForm" (keydown)="onKeydown()" type="text" class="form-control" required>
-
-                        <ul *ngIf="suggest" class="input-sugestions">
-                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                            <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
                         </ul>
                     </div>
                 </div>
                 <div class="frm-x2">
                     <div class="form-group" style="width:85%;">
-                        <label for="ingrident">Ingrident and Strength</label>
+                        <label for="ingrident">Ingrident + Strength + Dose Form</label>
                         <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
 
-                        <ul *ngIf="suggest" class="input-sugestions">
-                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        <ul *ngIf="ingredientSuggest" class="input-sugestions">
+                            <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                         </ul>
                     </div>
                     <i class="fa fa-plus frm-array-btn"></i>
                 </div>
+                <div class="frm-x2">
+                    <div class="form-group">
+                        <label for="brand">Brand Name</label>
+                        <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
+
+                        <ul *ngIf="brandSuggest" class="input-sugestions">
+                            <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="drugForm">Drug Form</label>
+                        <input formControlName="drugForm" (keydown)="onDrugFormKeydown()" type="text" class="form-control" required>
+
+                        <ul *ngIf="drugFormSuggest" class="input-sugestions">
+                            <li *ngFor="let drugForm of drugForms" (click)="drugForm_suggestion_click()" class="input-sugestion">{{drugForm.STR}}</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="frm-x2">
                     <div class="form-group">
                         <label for="route">Route</label>

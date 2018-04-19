@@ -18,7 +18,6 @@ export class ProductService {
   }
 
   find(query: any) {
-    console.log(query)
     return this._socket.find(query);
   }
 

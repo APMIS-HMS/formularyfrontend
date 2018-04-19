@@ -14,8 +14,15 @@ export class AppComponent implements OnInit {
   productTypes: any;
   suggest = false;
   productSuggest = false;
-
+  drugFormSuggest = false;
+  ingredientSuggest = false;
+  isSelected = false;
+  selectedBrand: any;
+  selectedDrugForm: any;
+  selectedIngredient: any;
   brands: any[] = [];
+  drugForms: any[] = [];
+  ingredients: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +63,8 @@ export class AppComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
         this.productService.find({ query: { search: value } }).then(payload => {
-          if (payload.data.length > 1) {
+          console.log(payload);
+          if (payload.data.length > 0) {
             this.productSuggest = true;
           } else {
             this.productSuggest = false;
@@ -67,16 +75,19 @@ export class AppComponent implements OnInit {
     this.frm_newProduct.controls['brand'].valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
-        this.brandService
+        this.selectedBrand = undefined;
+        if (value.length >= 3 && this.isSelected === false) {
+          this.brandService
           .find({
             query: {
               search: value,
-              $limit: 300
+              $limit: 10
             }
           })
           .then(payload => {
             console.log(payload);
-            if (payload.status === 'success' && payload.data.data.length > 1) {
+            this.isSelected = false;
+            if (payload.status === 'success' && payload.data.data.length > 0) {
               console.log(payload.data.data);
               this.brandSuggest = true;
               this.brands = payload.data.data;
@@ -85,6 +96,9 @@ export class AppComponent implements OnInit {
               this.brands = [];
             }
           });
+        } else {
+          this.isSelected = false;
+        }
       });
 
     this.getProductTypes();
@@ -96,7 +110,9 @@ export class AppComponent implements OnInit {
   onBrandKeydown() {
 
   }
+  onDrugFormKeydown() {
 
+  }
   getProductTypes() {
     this.productTypeService.find({ query: {} }).then(payload => {
       this.productTypes = payload.data;
@@ -109,7 +125,23 @@ export class AppComponent implements OnInit {
     this.suggest = false;
   }
 
-  brand_suggestion_click() {
+  brand_suggestion_click(value) {
     this.brandSuggest = false;
+    this.isSelected = true;
+    this.selectedBrand = value;
+    this.frm_newProduct.controls['brand'].setValue(value.STR);
+  }
+  drugForm_suggestion_click(value) {
+    this.drugFormSuggest = false;
+    this.isSelected = true;
+    this.selectedDrugForm = value;
+    this.frm_newProduct.controls['drugForm'].setValue(value.STR);
+  }
+
+  ingreditent_suggestion_click(value) {
+    this.ingredientSuggest = false;
+    this.isSelected = true;
+    this.selectedIngredient = value;
+    this.frm_newProduct.controls['ingrident'].setValue(value.STR);
   }
 }
