@@ -10,6 +10,8 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 export class AppComponent {
 
   suggest = false;
+  searchPage = false;
+  homePage = true;
 
   constructor(private formBuilder: FormBuilder){}
 
@@ -47,6 +49,10 @@ export class AppComponent {
   }
   suggestion_click(){
     this.suggest = false;
+  }
+  nav_search(){
+    this.homePage = false;
+    this.searchPage = true;
   }
 
 }

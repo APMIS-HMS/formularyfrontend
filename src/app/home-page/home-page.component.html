@@ -1,0 +1,133 @@
+<div class="sect-content">
+    <div class="main-minor-wrap">
+        <div class="pg-header">
+            <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
+            <div class="main-title">uniquely identify health product</div>
+        </div>
+
+        <div class="content-wrap">
+            <div class="content-lhs">
+                <legend class="txt1">
+                    Unique IDs for all registered drugs, interoperable invetory and logistic data reporting at no cost.
+                    <div class="txt-liner"></div>
+                </legend>
+                
+            </div>
+            <div class="content-rhs">
+                <div class="img-round">
+                    <img class="img1" src="../assets/images/pills4.jpg">
+                </div>
+            </div>
+        </div>
+
+        <div (click)="search_onClick()" class="cta">search for product</div>
+        
+        <!-- <form novalidate [formGroup]="frm_newProduct">
+            <div class="frm-x2">
+                <div class="form-group">
+                    <label for="productType">Product Type</label>
+                    <select formControlName="productType">
+                        <option value="Tablet">Tablet</option>
+                        <option value="Syrup">Syrup</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input formControlName="productName" (keydown)="onKeydown()" type="text" class="form-control" required>
+
+                    <ul *ngIf="suggest" class="input-sugestions">
+                        <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                        <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="seperator"></div>
+
+            <div class="enclosed-inputs">
+                <div class="frm-x2">
+                    <div class="form-group">
+                        <label for="brand">Brand Name</label>
+                        <input formControlName="brand" (keydown)="onKeydown()" type="text" class="form-control" required>
+    
+                        <ul *ngIf="suggest" class="input-sugestions">
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="drugForm">Drug Form</label>
+                        <input formControlName="drugForm" (keydown)="onKeydown()" type="text" class="form-control" required>
+    
+                        <ul *ngIf="suggest" class="input-sugestions">
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="frm-x2">
+                    <div class="form-group" style="width:85%;">
+                        <label for="ingrident">Ingrident and Strength</label>
+                        <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
+        
+                        <ul *ngIf="suggest" class="input-sugestions">
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+                        </ul>
+                    </div>
+                    <i class="fa fa-plus frm-array-btn"></i>
+                </div>
+                <div class="frm-x2">
+                    <div class="form-group">
+                        <label for="route">Route</label>
+                        <input formControlName="route" type="text" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manufacturer">Manufacturer</label>
+                        <input formControlName="manufacturer" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="frm-x2">
+                    <div class="frm-x2-post">
+                        <div class="form-group" style="width:49%;">
+                            <label for="frequency">Frequency</label>
+                            <input formControlName="frequency" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="width:49%;">
+                            <label for="unit">Unit</label>
+                            <input formControlName="unit" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <i class="fa fa-plus frm-array-btn"></i>
+                </div>
+                <div class="seperator"></div>
+                <div class="frm-x2" style="justify-content:flex-start;">
+                    <div class="barcode-view">
+                        <img src="../assets/images/qr.gif">
+                    </div>
+                    <div class="upload-btn-wrapper">
+                        <button class="btn">Upload Barcode</button>
+                        <input type="file" name="myfile" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <button>Save Product</button> 
+        -->
+    </div>
+</div>
