@@ -4,6 +4,8 @@
     <div class="main-title">uniquely identify health product</div>
   </div>
 
+  <div class="pg-title">Add Product</div>
+
   <form class="add-frm" novalidate [formGroup]="frm_newProduct">
     <div class="frm-x2">
         <div class="form-group">
@@ -14,61 +16,16 @@
         </div>
 
         <div class="form-group">
-            <label for="productName">Product Name</label>
-            <input formControlName="productName" (keydown)="onProductKeydown()" type="text" class="form-control" required>
+            <label for="brand">Brand Name</label>
+            <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
 
-            <ul *ngIf="productSuggest" class="input-sugestions">
-                <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                <li (click)="suggestion_click()" class="input-sugestion">Bacillus Calmette-Guerin (BCG) Vaccine</li>
-                <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
-                <li (click)="suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                <li (click)="suggestion_click()" class="input-sugestion">Progestin-Only Oral Contraceptives</li>
+            <ul *ngIf="brandSuggest" class="input-sugestions">
+                <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
             </ul>
         </div>
     </div>
 
-    <div class="seperator"></div>
-
     <div *ngIf="!productSuggest" class="enclosed-inputs">
-        <div class="frm-x2">
-            <div class="form-group" style="width:100%;">
-                <label for="brand">Brand Name</label>
-                <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
-
-                <ul *ngIf="brandSuggest" class="input-sugestions">
-                    <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
-                </ul>
-            </div>
-        </div>
-        <div class="frm-x2">
-            <div class="form-group" style="width:85%;">
-                <label for="ingrident">Ingrident + Strength + Dose Form</label>
-                <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
-
-                <ul *ngIf="ingredientSuggest" class="input-sugestions">
-                    <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                </ul>
-            </div>
-            <i class="fa fa-plus frm-array-btn"></i>
-        </div>
-        <div class="frm-x2">
-            <div class="form-group">
-                <label for="brand">Brand Name</label>
-                <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
-
-                <ul *ngIf="brandSuggest" class="input-sugestions">
-                    <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
-                </ul>
-            </div>
-            <div class="form-group">
-                <label for="drugForm">Drug Form</label>
-                <input formControlName="drugForm" (keydown)="onDrugFormKeydown()" type="text" class="form-control" required>
-
-                <ul *ngIf="drugFormSuggest" class="input-sugestions">
-                    <li *ngFor="let drugForm of drugForms" (click)="drugForm_suggestion_click()" class="input-sugestion">{{drugForm.STR}}</li>
-                </ul>
-            </div>
-        </div>
 
         <div class="frm-x2">
             <div class="form-group">
@@ -81,31 +38,60 @@
                 <input formControlName="manufacturer" type="text" class="form-control" required>
             </div>
         </div>
+        
         <div class="frm-x2">
-            <div class="frm-x2-post">
-                <div class="form-group" style="width:49%;">
-                    <label for="frequency">Frequency</label>
-                    <input formControlName="frequency" type="text" class="form-control" required>
-                </div>
-                <div class="form-group" style="width:49%;">
-                    <label for="unit">Unit</label>
-                    <input formControlName="unit" type="text" class="form-control" required>
-                </div>
-            </div>
-            <i class="fa fa-plus frm-array-btn"></i>
-        </div>
-        <div class="seperator"></div>
-        <div class="frm-x2" style="justify-content:flex-start;">
-            <div class="barcode-view">
-                <img src="../assets/images/qr.gif">
-            </div>
-            <div class="upload-btn-wrapper">
-                <button class="btn">Upload Barcode</button>
-                <input type="file" name="myfile" />
-            </div>
-        </div>
-    </div>
-  </form>
+            <div class="form-group">
+                <label for="ingrident">Ingrident + Strength + Dose Form</label>
+                <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
 
-  <button>Save Product</button> 
+                <ul *ngIf="ingredientSuggest" class="input-sugestions">
+                    <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                </ul>
+
+                <div class="div-tbl-wrap">
+                    <ul class="div-tbl-head">
+                        <li class="li-tbl-head-item">Ingredient</li>
+                        <li class="li-tbl-head-item">Strength</li>
+                    </ul>
+
+                    <ul class="ul-tbl-body">
+                        <li class="li-tbl-body-row">
+                            <div class="row-item">Phenol melancoly biometanoate divide slice like a knife yeah?</div>
+                            <div class="row-item">500mg</div>
+                        </li>
+                        <li class="li-tbl-body-row">
+                            <div class="row-item">Phenol</div>
+                            <div class="row-item">500mg</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="frequency">Regimen</label>
+                <input formControlName="frequency" type="text" class="form-control" required>
+
+                <div class="div-tbl-wrap">
+                    <ul class="div-tbl-head">
+                        <li class="li-tbl-head-item">Ingredient</li>
+                        <li class="li-tbl-head-item">Strength</li>
+                    </ul>
+
+                    <ul class="ul-tbl-body">
+                        <li class="li-tbl-body-row">
+                            <div class="row-item">Phenol</div>
+                            <div class="row-item">500mg</div>
+                        </li>
+                        <li class="li-tbl-body-row">
+                            <div class="row-item">Phenol</div>
+                            <div class="row-item">500mg</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- remember to add drug form label -->
+    </div>
+  </form> 
+
+  <button class="cta">Save Product</button> 
 </div>
