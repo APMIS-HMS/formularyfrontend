@@ -1,4 +1,56 @@
+@import "../../assets/libs/variables.scss";
+
 .pg-header {
-    background: #bd0020;
+    background: $c1;
     padding: 10px;
+}
+.inputs-wrap {
+    display: flex;
+    width: 80%;
+    margin: 20px auto;
+}
+.srch-select{
+    width: 30%;
+    font-size: 1.8rem;
+}
+.srch-txt{
+    width: 70%;
+    font-size: 1.8rem;
+}
+.return-lists {
+    width: 80%;
+    margin: 0 auto;
+}
+.return-list {
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding: 3px;
+}
+.return-list:hover{
+    background: #eee;
+}
+.return-label {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+    color: #999;
+}
+span.keyword {
+    font-style: italic;
+    text-decoration: underline;
+    color: $c1;
+}
+.main-returned {
+    font-size: 1.8rem;
+    color: #000;
+}
+ul.other-returned {
+    display: flex;
+}
+ul.other-returned li{
+    margin-right: 20px;
+}
+.other-returned{
+    font-size: 1.4rem;
 }

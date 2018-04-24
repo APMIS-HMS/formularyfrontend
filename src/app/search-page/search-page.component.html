@@ -5,10 +5,37 @@
   </div>
 
   <div class="inputs-wrap">
-    <!-- <select>
+    <select class="srch-select" [formControl]="searchTypeInput">
+      <option value="" disabled selected>Search Type</option> 
       <option>Branded Drug</option>
       <option>Generic Drug</option>
     </select>
-    <input> -->
+    <input class="srch-txt" type="search" placeholder="Search" [formControl]="searchInput">
   </div>
+
+  <div class="return-label">50 entries returned for <span class="keyword">"parace"</span></div>
+  <ul class="return-lists">
+    <li class="return-list">
+      <div class="main-returned">Emzor Paracetamol</div>
+      <ul class="other-returned">
+        <li>Panadol 100mg</li>
+        <li>Morphine 20mg</li>
+        <li>Quinin 50mg</li>
+      </ul>
+      <div class="other-returned">Oral Capsule</div>
+      <div class="other-returned">Oral</div>
+      <div class="other-returned">Pizer Corporations LTD</div>
+    </li>
+    <li class="return-list">
+      <div class="main-returned">Emzor Paracetamol</div>
+      <ul class="other-returned">
+        <li>Panadol 100mg</li>
+        <li>Morphine 20mg</li>
+        <li>Quinin 50mg</li>
+      </ul>
+      <div class="other-returned">Oral Capsule</div>
+      <div class="other-returned">Oral</div>
+      <div class="other-returned">Pizer Corporations LTD</div>
+    </li>
+  </ul>
 </div>
