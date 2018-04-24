@@ -1,2 +1,3 @@
-<app-home-page (searchPage)="nav_search()" *ngIf="homePage"></app-home-page>
-<app-search-page *ngIf="searchPage"></app-search-page> 
+<app-home-page (searchPage)="nav_search()" (addPage)="nav_add()" *ngIf="homePage"></app-home-page>
+<app-search-page (homepage)="nav_home()" *ngIf="searchPage"></app-search-page> 
+<app-add-page (homepage)="nav_home()" *ngIf="addPage"></app-add-page>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -8,12 +8,18 @@ import { FormControl } from '@angular/forms';
 })
 export class SearchPageComponent implements OnInit {
 
+  @Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   searchInput = new FormControl();
   searchTypeInput = new FormControl();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  home_onClick() {
+    this.homepage.emit(true);
   }
 
 }

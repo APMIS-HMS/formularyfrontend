@@ -8,6 +8,7 @@ import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/cor
 export class HomePageComponent implements OnInit {
 
   @Output() searchPage: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() addPage: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -16,6 +17,9 @@ export class HomePageComponent implements OnInit {
 
   search_onClick() {
     this.searchPage.emit(true);
+  }
+  add_onClick() {
+    this.addPage.emit(true);
   }
 
 }

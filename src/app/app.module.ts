@@ -9,13 +9,15 @@ import { SearchPageComponent } from './search-page/search-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ProductService } from './services/product.service';
 import { ProductTypeService } from './services/product-type.service';
+import { AddPageComponent } from './add-page/add-page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    AddPageComponent
   ],
   imports: [
     BrowserModule,

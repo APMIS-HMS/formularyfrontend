@@ -1,12 +1,12 @@
 <div class="pg-wrap">
   <div class="pg-header">
-      <div class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
+      <div (click)="home_onClick()" class="top-title"><span class="c1">APMIS</span><span class="c2">Formulary</span></div>
       <div class="main-title">uniquely identify health product</div>
   </div>
 
   <div class="inputs-wrap">
     <select class="srch-select" [formControl]="searchTypeInput">
-      <option value="" disabled selected>Search Type</option> 
+      <option selected>All</option> 
       <option>Branded Drug</option>
       <option>Generic Drug</option>
     </select>
