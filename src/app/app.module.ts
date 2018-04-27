@@ -5,13 +5,19 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { SearchPageComponent } from './search-page/search-page.component';
+import { HomePageComponent } from './home-page/home-page.component';
 import { ProductService } from './services/product.service';
 import { ProductTypeService } from './services/product-type.service';
+import { AddPageComponent } from './add-page/add-page.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchPageComponent,
+    HomePageComponent,
+    AddPageComponent
   ],
   imports: [
     BrowserModule,

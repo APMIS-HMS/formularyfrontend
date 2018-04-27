@@ -11,6 +11,7 @@ html,body{
 body{
     width: 100%;
     height:100%; 
+    font-family: 'Oxygen', sans-serif;
 }
 a {
     text-decoration: none;
@@ -129,15 +130,10 @@ input, textarea{
 button{
     display: block;
     padding: 10px 30px;
-    background: #256cc6;
-    color: #000;
+    background: #001f47;
+    color: #fff;
     outline: 0;
     margin: 0 auto;
-}
-.frm-arr-ico{
-    color: #256cc6;
-    cursor: pointer;
-    font-size: 20px;
 }
 .main-minor-wrap{
     @extend .nice-scroll;
@@ -149,15 +145,28 @@ button{
     text-align: center;
     font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer; 
 }
 .main-title{
-    color: #333;
+    color: #fff;
     width: 100%;
     text-align: center;
-    font-size: 16px; 
+    font-size: 1.2rem; 
 }
 .c1{
     color: $c1;
+    background: #fff;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+}
+.c2{
+    color: #fff;
+    border: 0.5px solid #fff;
+    padding: 5px 10px;
+    box-sizing: border-box;
 }
 .frm-array-btn {
     padding: 15px;
@@ -197,4 +206,28 @@ button{
 .barcode-view img{
     width: 120px;
     margin-right: 30px;
+}
+.cta-wrap{
+    display: flex;
+    margin: 0px auto;
+    margin-top: 40px; 
+    width: 605px;
+    justify-content: center;
+    align-items: center;
+}
+.cta{
+    padding: 10px 25px;
+    font-size: 2rem;
+    color: #fff;
+    border: 2px solid #fff;
+    text-align: center;
+    width: 300px;
+    cursor: pointer;
+}
+.pg-title {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.8rem;
+    color: #777;
 }
