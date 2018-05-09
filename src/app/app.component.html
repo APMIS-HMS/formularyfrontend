@@ -45,14 +45,14 @@
                         <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
 
                         <ul *ngIf="ingredientSuggest" class="input-sugestions">
-                            <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
+                            <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click(ingredient)" class="input-sugestion">{{ingredient.name}}</li>
                         </ul>
                     </div>
                     <i class="fa fa-plus frm-array-btn"></i>
                 </div>
                 <div class="frm-x2">
                     <div class="form-group">
-                        <label for="brand">Brand Name</label>
+                        <label for="brand">Ingrident + Strength </label>
                         <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
 
                         <ul *ngIf="brandSuggest" class="input-sugestions">

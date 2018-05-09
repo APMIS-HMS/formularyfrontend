@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BrandService } from './services/brand.service';
+import { IngredientService } from './services/ingredient.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
     private formBuilder: FormBuilder,
     private productService: ProductService,
     private productTypeService: ProductTypeService,
+    private ingredientService: IngredientService,
     private brandService: BrandService
   ) {}
 
@@ -63,7 +65,6 @@ export class AppComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
         this.productService.find({ query: { search: value } }).then(payload => {
-          console.log(payload);
           if (payload.data.length > 0) {
             this.productSuggest = true;
           } else {
@@ -85,15 +86,40 @@ export class AppComponent implements OnInit {
             }
           })
           .then(payload => {
-            console.log(payload);
             this.isSelected = false;
             if (payload.status === 'success' && payload.data.data.length > 0) {
-              console.log(payload.data.data);
               this.brandSuggest = true;
               this.brands = payload.data.data;
             } else {
               this.brandSuggest = false;
               this.brands = [];
+            }
+          });
+        } else {
+          this.isSelected = false;
+        }
+      });
+
+      this.frm_newProduct.controls['ingrident'].valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(value => {
+        this.selectedIngredient = undefined;
+        if (value.length >= 3 && this.isSelected === false) {
+          this.ingredientService
+          .find({
+            query: {
+              search: value,
+              $limit: 10
+            }
+          })
+          .then(payload => {
+            this.isSelected = false;
+            if (payload.status === 'success' && payload.data.length > 0) {
+              this.ingredientSuggest = true;
+              this.ingredients = payload.data;
+            } else {
+              this.ingredientSuggest = false;
+              this.ingredients = [];
             }
           });
         } else {
@@ -142,6 +168,13 @@ export class AppComponent implements OnInit {
     this.ingredientSuggest = false;
     this.isSelected = true;
     this.selectedIngredient = value;
-    this.frm_newProduct.controls['ingrident'].setValue(value.STR);
+    this.frm_newProduct.controls['ingrident'].setValue(value.name);
+    this._getIngredient(value.code);
+  }
+
+  _getIngredient(id) {
+    this.ingredientService.get(id,{}).then(payload => {
+      console.log(payload);
+    });
   }
 }

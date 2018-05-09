@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ProductService } from './services/product.service';
 import { ProductTypeService } from './services/product-type.service';
+import { IngredientService } from './services/ingredient.service';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { ProductTypeService } from './services/product-type.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductService, ProductTypeService, BrandService, SocketService, RestService],
+  providers: [ProductService, ProductTypeService, BrandService, IngredientService, SocketService, RestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

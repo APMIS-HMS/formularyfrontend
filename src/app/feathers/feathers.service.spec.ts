@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { FeathersService } from './feathers.service';
+import { SocketService, RestService } from './feathers.service';
 
 describe('FeathersService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FeathersService]
+      providers: [SocketService]
     });
   });
 
-  it('should be created', inject([FeathersService], (service: FeathersService) => {
+  it('should be created', inject([SocketService], (service: SocketService) => {
     expect(service).toBeTruthy();
   }));
 });
