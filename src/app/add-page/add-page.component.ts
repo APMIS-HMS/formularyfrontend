@@ -1,22 +1,24 @@
-
-import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
+import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ProductTypeService } from '../services/product-type.service';
+import { ProductService } from '../services/product.service';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { BrandService } from './services/brand.service';
-import { IngredientService } from './services/ingredient.service';
-=======
->>>>>>> 5da520c2ddb66834b7e2feeddd27adc8ebd375a4
+import { BrandService } from '../services/brand.service';
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-add-page',
+  templateUrl: './add-page.component.html',
+  styleUrls: ['./add-page.component.scss']
 })
-export class AppComponent implements OnInit {
-<<<<<<< HEAD
+export class AddPageComponent implements OnInit {
+
+  @Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   brandSuggest: boolean;
   productTypes: any;
   suggest = false;
+  searchPage = false;
+  homePage = true;
   productSuggest = false;
   drugFormSuggest = false;
   ingredientSuggest = false;
@@ -32,9 +34,8 @@ export class AppComponent implements OnInit {
     private formBuilder: FormBuilder,
     private productService: ProductService,
     private productTypeService: ProductTypeService,
-    private ingredientService: IngredientService,
     private brandService: BrandService
-  ) {}
+  ) { }
 
   public frm_newProduct: FormGroup;
   public ingredientForm: FormGroup;
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
         this.productService.find({ query: { search: value } }).then(payload => {
+          console.log(payload);
           if (payload.data.length > 0) {
             this.productSuggest = true;
           } else {
@@ -89,8 +91,10 @@ export class AppComponent implements OnInit {
             }
           })
           .then(payload => {
+            console.log(payload);
             this.isSelected = false;
             if (payload.status === 'success' && payload.data.data.length > 0) {
+              console.log(payload.data.data);
               this.brandSuggest = true;
               this.brands = payload.data.data;
             } else {
@@ -103,60 +107,34 @@ export class AppComponent implements OnInit {
         }
       });
 
-      this.frm_newProduct.controls['ingrident'].valueChanges
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe(value => {
-        this.selectedIngredient = undefined;
-        if (value.length >= 3 && this.isSelected === false) {
-          this.ingredientService
-          .find({
-            query: {
-              search: value,
-              $limit: 10
-            }
-          })
-          .then(payload => {
-            this.isSelected = false;
-            if (payload.status === 'success' && payload.data.length > 0) {
-              this.ingredientSuggest = true;
-              this.ingredients = payload.data;
-            } else {
-              this.ingredientSuggest = false;
-              this.ingredients = [];
-            }
-          });
-        } else {
-          this.isSelected = false;
-        }
-      });
-
     this.getProductTypes();
   }
+
   onProductKeydown() {
     //  return this.productSuggest;
   }
-=======
->>>>>>> 5da520c2ddb66834b7e2feeddd27adc8ebd375a4
 
-  homePage = true;
-  searchPage = false;
-  addPage = false;
-  
-  constructor() {}
+  onBrandKeydown() {
 
-  ngOnInit() {}
+  }
+  onDrugFormKeydown() {
 
+  }
+  getProductTypes() {
+    this.productTypeService.find({ query: {} }).then(payload => {
+      this.productTypes = payload.data;
+    });
+  }
+  onKeydown() {
+    this.suggest = true;
+  }
+  suggestion_click() {
+    this.suggest = false;
+  }
   nav_search(){
     this.homePage = false;
     this.searchPage = true;
-    this.addPage = false;
   }
-  nav_add(){
-    this.homePage = false;
-    this.searchPage = false;
-    this.addPage = true;
-  }
-<<<<<<< HEAD
 
   brand_suggestion_click(value) {
     this.brandSuggest = false;
@@ -175,19 +153,11 @@ export class AppComponent implements OnInit {
     this.ingredientSuggest = false;
     this.isSelected = true;
     this.selectedIngredient = value;
-    this.frm_newProduct.controls['ingrident'].setValue(value.name);
-    this._getIngredient(value.code);
+    this.frm_newProduct.controls['ingrident'].setValue(value.STR);
   }
 
-  _getIngredient(id) {
-    this.ingredientService.get(id,{}).then(payload => {
-      console.log(payload);
-    });
-=======
-  nav_home(){
-    this.homePage = true;
-    this.searchPage = false; 
-    this.addPage = false;
->>>>>>> 5da520c2ddb66834b7e2feeddd27adc8ebd375a4
+  home_onClick() {
+    this.homepage.emit(true);
   }
+
 }
