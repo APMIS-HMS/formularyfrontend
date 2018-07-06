@@ -1,15 +1,13 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-page',
-  templateUrl: './search-page.component.html',
-  styleUrls: ['./search-page.component.scss']
+  selector: 'app-search-product',
+  templateUrl: './search-product.component.html',
+  styleUrls: ['./search-product.component.scss']
 })
-export class SearchPageComponent implements OnInit {
-
+export class SearchProductComponent implements OnInit {
   @Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   searchInput = new FormControl();
   searchTypeInput = new FormControl();
 
@@ -21,5 +19,6 @@ export class SearchPageComponent implements OnInit {
   home_onClick() {
     this.homepage.emit(true);
   }
+
 
 }

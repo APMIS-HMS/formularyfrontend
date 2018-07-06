@@ -1,19 +1,17 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
-import { ProductTypeService } from '../services/product-type.service';
-import { ProductService } from '../services/product.service';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { ProductTypeService } from '../../services/product-type.service';
+import { BrandService } from '../../services/brand.service';
+import { ProductService } from '../../services/product.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { BrandService } from '../services/brand.service';
 
 @Component({
-  selector: 'app-add-page',
-  templateUrl: './add-page.component.html',
-  styleUrls: ['./add-page.component.scss']
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.scss']
 })
-export class AddPageComponent implements OnInit {
-
+export class AddProductComponent implements OnInit {
   @Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   brandSuggest: boolean;
   productTypes: any;
   suggest = false;
@@ -84,24 +82,24 @@ export class AddPageComponent implements OnInit {
         this.selectedBrand = undefined;
         if (value.length >= 3 && this.isSelected === false) {
           this.brandService
-          .find({
-            query: {
-              search: value,
-              $limit: 10
-            }
-          })
-          .then(payload => {
-            console.log(payload);
-            this.isSelected = false;
-            if (payload.status === 'success' && payload.data.data.length > 0) {
-              console.log(payload.data.data);
-              this.brandSuggest = true;
-              this.brands = payload.data.data;
-            } else {
-              this.brandSuggest = false;
-              this.brands = [];
-            }
-          });
+            .find({
+              query: {
+                search: value,
+                $limit: 10
+              }
+            })
+            .then(payload => {
+              console.log(payload);
+              this.isSelected = false;
+              if (payload.status === 'success' && payload.data.data.length > 0) {
+                console.log(payload.data.data);
+                this.brandSuggest = true;
+                this.brands = payload.data.data;
+              } else {
+                this.brandSuggest = false;
+                this.brands = [];
+              }
+            });
         } else {
           this.isSelected = false;
         }
@@ -131,7 +129,7 @@ export class AddPageComponent implements OnInit {
   suggestion_click() {
     this.suggest = false;
   }
-  nav_search(){
+  nav_search() {
     this.homePage = false;
     this.searchPage = true;
   }
@@ -159,5 +157,4 @@ export class AddPageComponent implements OnInit {
   home_onClick() {
     this.homepage.emit(true);
   }
-
 }

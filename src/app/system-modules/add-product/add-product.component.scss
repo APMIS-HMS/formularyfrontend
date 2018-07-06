@@ -1,13 +1,14 @@
-@import "../../assets/libs/variables.scss";
-
+@import "../../../assets/libs/variables.scss";
 .pg-header {
     background: $c1;
     padding: 10px;
 }
-.add-frm{
+
+.add-frm {
     width: 80%;
-    margin: 20px auto;  
-} 
+    margin: 20px auto;
+}
+
 .div-tbl-wrap {
     margin-top: 5px;
     width: 100%;
@@ -15,6 +16,7 @@
     overflow-y: auto;
     font-size: 1.4rem;
 }
+
 .div-tbl-head {
     display: flex;
     justify-content: space-between;
@@ -22,16 +24,19 @@
     width: 100%;
     background: $c1;
 }
-.li-tbl-head-item{
+
+.li-tbl-head-item {
     width: 49%;
     border-right: 1px solid #fff;
     padding: 5px;
     box-sizing: border-box;
 }
-ul.ul-tbl-body{
+
+ul.ul-tbl-body {
     border-left: 1px solid $c1;
     border-right: 1px solid $c1;
 }
+
 li.li-tbl-body-row {
     display: flex;
     justify-content: space-between;
@@ -39,12 +44,15 @@ li.li-tbl-body-row {
     padding: 5px;
     box-sizing: border-box;
 }
-li.li-tbl-body-row:hover{
+
+li.li-tbl-body-row:hover {
     background: #eee;
 }
-.row-item{
+
+.row-item {
     width: 49%;
 }
+
 // .pg-wrap{
 //     background-image: url('../../assets/images/pill5.png') no-repeat;
 //     background-color: #fff;
@@ -53,20 +61,20 @@ li.li-tbl-body-row:hover{
 //     -o-background-size: cover;
 //     background-size: cover;
 // }
-
 @media only screen and (max-width: 800px) {
-    .frm-x2, .frm-x3{
-        display: block; 
+    .frm-x2,
+    .frm-x3 {
+        display: block;
     }
-    .frm-x2 .form-group{
-        width: 100%; 
+    .frm-x2 .form-group {
+        width: 100%;
     }
-    .div-tbl-wrap{
+    .div-tbl-wrap {
         height: auto;
         margin-bottom: 20px;
     }
-    .cta{
+    .cta {
         width: 80%;
-        margin-bottom: 30px; 
+        margin-bottom: 30px;
     }
 }
