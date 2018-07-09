@@ -1,8 +1,6 @@
 import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
 // import { SwitchUserResolverService } from './resolvers/module-menu/index';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
   {
@@ -11,15 +9,12 @@ const appRoutes: Routes = [
     data: { preload: true }
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'auth',
+    loadChildren: './auth/auth.module#AuthModule',
+    data: { preload: true }
   },
   {
-    path: 'signup',
-    component: SignupComponent
-  },
-  {
-    path: '', redirectTo: 'login', pathMatch: 'full'
+    path: '', redirectTo: 'auth', pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
 ];

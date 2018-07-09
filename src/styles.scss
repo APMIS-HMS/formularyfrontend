@@ -182,15 +182,16 @@ button{
     display: inline-block;
   }
   
-  .btn {
-    border: 2px solid gray;
-    color: gray;
+  .btn { 
+    border: 1px solid #bd0020;
+    color: #bd0020;
     background-color: white;
     padding: 8px 20px;
     border-radius: 8px;
-    font-size: 20px;
+    font-size: 1.4rem;
     font-weight: bold;
-  }
+    cursor: pointer;
+}
   
   .upload-btn-wrapper input[type=file] {
     font-size: 100px;
@@ -230,4 +231,31 @@ button{
     margin-top: 20px;
     font-size: 1.8rem;
     color: #777;
+}
+.onpg-modal-wrap {
+    width: 500px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #777;
+    margin: 0 auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
+}
+.or-sect {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    color: #bd0020;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.or-sect:hover, .or-sect span{
+    font-weight: bold;
+}  
+.modal-title {
+    width: 100%;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #000;
 }

@@ -4,7 +4,7 @@ import { ProductTypeService } from '../../services/product-type.service';
 import { BrandService } from '../../services/brand.service';
 import { ProductService } from '../../services/product.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -32,7 +32,8 @@ export class AddProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private productService: ProductService,
     private productTypeService: ProductTypeService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private _router: Router
   ) { }
 
   public frm_newProduct: FormGroup;
@@ -154,7 +155,7 @@ export class AddProductComponent implements OnInit {
     this.frm_newProduct.controls['ingrident'].setValue(value.STR);
   }
 
-  home_onClick() {
-    this.homepage.emit(true);
+  prod_list(){
+    this._router.navigate(['modules/products']);
   }
 }

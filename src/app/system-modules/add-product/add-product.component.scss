@@ -1,8 +1,4 @@
 @import "../../../assets/libs/variables.scss";
-.pg-header {
-    background: $c1;
-    padding: 10px;
-}
 
 .add-frm {
     width: 80%;
@@ -77,4 +73,11 @@ li.li-tbl-body-row:hover {
         width: 80%;
         margin-bottom: 30px;
     }
+}
+.top-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 80%;
+    margin: 20px auto;
 }

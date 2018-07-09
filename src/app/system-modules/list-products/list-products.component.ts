@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-list-products',
   templateUrl: './list-products.component.html',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListProductsComponent implements OnInit {
 
-  constructor() { }
+  searchInput = new FormControl();
+  searchTypeInput = new FormControl();
+
+  constructor(private _router: Router) { }
 
   ngOnInit() {
+  }
+
+  create_prod(){
+    this._router.navigate(['modules/add-product']); 
   }
 
 }
