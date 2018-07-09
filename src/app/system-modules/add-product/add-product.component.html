@@ -31,17 +31,13 @@
 
         <div class="frm-x2">
             <div class="form-group">
-                <label for="route">Route</label>
-                <input formControlName="route" type="text" class="form-control" required>
-            </div>
-
-            <div class="form-group">
                 <label for="manufacturer">Manufacturer</label>
-                <input formControlName="manufacturer" type="text" class="form-control" required>
-            </div>
-        </div>
+                <input formControlName="manufacturer" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
 
-        <div class="frm-x2">
+                <ul *ngIf="brandSuggest" class="input-sugestions">
+                    <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
+                </ul>
+            </div>
             <div class="form-group">
                 <label for="ingrident">Ingrident + Strength + Dose Form</label>
                 <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
@@ -49,45 +45,34 @@
                 <ul *ngIf="ingredientSuggest" class="input-sugestions">
                     <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
                 </ul>
+            </div>
+        </div>
 
-                <div class="div-tbl-wrap">
-                    <ul class="div-tbl-head">
-                        <li class="li-tbl-head-item">Ingredient</li>
-                        <li class="li-tbl-head-item">Strength</li>
-                    </ul>
-
-                    <ul class="ul-tbl-body">
-                        <li class="li-tbl-body-row">
-                            <div class="row-item">Phenol melancoly biometanoate divide slice like a knife yeah?</div>
-                            <div class="row-item">500mg</div>
-                        </li>
-                        <li class="li-tbl-body-row">
-                            <div class="row-item">Phenol</div>
-                            <div class="row-item">500mg</div>
-                        </li>
-                    </ul>
-                </div>
+        <div class="frm-x2">
+            <div class="form-group">
+                <label for="frequency">Product Image</label>
+                <input formControlName="upload" type="file" class="form-control">
             </div>
             <div class="form-group">
                 <label for="frequency">Regimen</label>
-                <input formControlName="frequency" type="text" class="form-control" required>
-
-                <div class="div-tbl-wrap">
-                    <ul class="div-tbl-head">
-                        <li class="li-tbl-head-item">Ingredient</li>
-                        <li class="li-tbl-head-item">Strength</li>
-                    </ul>
-
-                    <ul class="ul-tbl-body">
-                        <li class="li-tbl-body-row">
-                            <div class="row-item">Phenol</div>
-                            <div class="row-item">500mg</div>
-                        </li>
-                        <li class="li-tbl-body-row">
-                            <div class="row-item">Phenol</div>
-                            <div class="row-item">500mg</div>
-                        </li>
-                    </ul>
+                <div class="regimen-wrap">
+                    <div class="input-grp">
+                        <div class="side-sect">
+                            <input placeholder="2" formControlName="regFrequency" type="number" class="form-control" required>
+                            <div class="x">X</div>
+                            <select formControlName="regUnit">
+                                <option>Daily</option>
+                            </select>
+                        </div>
+                        <div class="mid-sect">FOR</div>
+                        <div class="side-sect">
+                            <input placeholder="2" formControlName="regDuration" type="number" class="form-control" required>
+                            <select formControlName="durationUnit">
+                                <option>Months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="plus-btn">+</div>
                 </div>
             </div>
         </div>

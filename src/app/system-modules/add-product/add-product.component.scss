@@ -81,3 +81,52 @@ li.li-tbl-body-row:hover {
     width: 80%;
     margin: 20px auto;
 }
+.regimen-wrap{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.input-grp{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+.plus-btn{
+    font-size: 4rem;
+    cursor: pointer;
+    font-weight: 900;
+    color: #aaa;
+}
+.plus-btn:hover{
+    color: #bd0020;
+}
+.side-sect{
+    width: 49%;
+    display: flex; 
+    justify-content: space-between;
+}
+.side-sect input{
+    width: 30px;
+    margin-right: 10px;
+}
+.mid-sect{
+    width: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #bbb;
+    font-weight: 900;
+}
+.x{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #bbb;
+    font-weight: 900;
+    padding: 5px;
+    margin-right: 10px;
+    box-sizing: border-box;  
+}

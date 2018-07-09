@@ -47,9 +47,12 @@ export class AddProductComponent implements OnInit {
       brand: ['', [<any>Validators.required]],
       drugForm: ['', [<any>Validators.required]],
       ingrident: ['', [<any>Validators.required]],
-      route: ['', [<any>Validators.required]],
+      upload: ['', [<any>Validators]],
       manufacturer: ['', [<any>Validators.required]],
-      frequency: ['', [<any>Validators.required]],
+      regFrequency: ['', [<any>Validators.required]],
+      durationUnit: ['', [<any>Validators.required]],
+      regUnit: ['', [<any>Validators.required]],
+      regDuration: ['', [<any>Validators.required]],
       unit: ['', [<any>Validators.required]]
     });
 
@@ -114,7 +117,7 @@ export class AddProductComponent implements OnInit {
   }
 
   onBrandKeydown() {
-
+    this.brandSuggest = true;
   }
   onDrugFormKeydown() {
 
