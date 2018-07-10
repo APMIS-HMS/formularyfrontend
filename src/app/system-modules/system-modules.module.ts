@@ -13,7 +13,7 @@ import { ProductTypeService } from '../services/product-type.service';
   SystemModulesComponent,
   ListProductsComponent,
   AddProductComponent],
-  exports: [
+  exports: [ 
   ],
   imports: [
     systemModulesRoutes,
