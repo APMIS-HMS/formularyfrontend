@@ -11,6 +11,11 @@
 .srch-select {
     width: 30%;
     font-size: 1.8rem;
+    margin-right: 10px;
+}
+.cta{
+    width: auto !important; 
+    font-size: 1.4rem;
 }
 
 .srch-txt {
@@ -25,7 +30,7 @@
 
 .return-list {
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     padding: 3px;
 }
 
@@ -37,20 +42,23 @@
     width: 80%;
     margin: 0 auto;
     margin-bottom: 5px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: #999;
+    border-bottom: 1px solid #bd0020;
+    /* text-align: right; */
+    padding-bottom: 5px;
 }
 
 span.keyword {
     font-style: italic;
-    text-decoration: underline;
-    color: $c1;
+    // text-decoration: underline;
+    color: $green-4;
 }
 
 .main-returned {
-    font-size: 1.8rem;
-    color: #000;
-    font-weight: bold;
+    font-size: 2rem;
+    color: $link;
+    margin-bottom: 5px;
 }
 
 ul.other-returned {
@@ -66,7 +74,7 @@ ul.other-returned li {
 }
 
 span.val-label {
-    color: rgb(3, 107, 163);
+    color: $green-4;
     padding-right: 10px;
     font-style: italic;
 }
@@ -76,4 +84,21 @@ span.val-label {
     align-items: baseline;
     width: 80%;
     margin: 20px auto;
+}
+
+@media screen and (max-width: 700px) {
+    // .input-grp[_ngcontent-c3]
+    .top-actions{
+        flex-direction: column-reverse;
+    }
+    .top-btn-wrap{
+        width: 100%;
+        margin-bottom: 5px;
+        button{
+            float: right;
+        }
+    }
+    .inputs-wrap{
+        width: 100%; 
+    }
 }
