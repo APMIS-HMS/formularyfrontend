@@ -11,12 +11,15 @@ import { RXNConsoService } from '../services/rxnconso.service';
 import { IngredientService } from '../services/ingredient.service';
 import { ManufacturerService } from '../services/manufacturer.service';
 import { FrequencyService } from '../services/frequency.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
   SystemModulesComponent,
   ListProductsComponent,
-  AddProductComponent],
+  AddProductComponent,
+  PageNotFoundComponent
+],
   exports: [
   ],
   imports: [
