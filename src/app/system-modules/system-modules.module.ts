@@ -1,6 +1,5 @@
 import { NgModule, NgZone } from '@angular/core';
 import { ListProductsComponent } from './list-products/list-products.component';
-import { SearchProductComponent } from './search-product/search-product.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,7 +12,6 @@ import { ProductTypeService } from '../services/product-type.service';
   declarations: [
   SystemModulesComponent,
   ListProductsComponent,
-  SearchProductComponent,
   AddProductComponent],
   exports: [
   ],
