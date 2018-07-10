@@ -1,18 +1,20 @@
 @import "./assets/libs/variables.scss";
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-
-html,body{
+html,
+body {
     font-family: $font-main;
     margin: 0;
     padding: 0;
     font-size: $base-font-size;
     @extend .nice-scroll;
 }
-body{
+
+body {
     width: 100%;
-    height:100%; 
+    height: 100%;
     font-family: 'Oxygen', sans-serif;
 }
+
 a {
     text-decoration: none;
 }
@@ -28,38 +30,43 @@ li {
     outline: 0;
 }
 
-.nice-scroll::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+.text-center {
+    padding: 5px;
+    text-align: center;
 }
 
-.nice-scroll::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
+.nice-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
 }
 
-.nice-scroll::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #555;
+.nice-scroll::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
 }
+
+.nice-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+
 .shadow {
     -webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
 }
+
 .shadow-grey {
     -webkit-box-shadow: 0 8px 6px -6px #777;
     -moz-box-shadow: 0 8px 6px -6px #777;
     box-shadow: 0 8px 6px -6px #777;
 }
 
-
-input, select, textarea{
+input,
+select,
+textarea {
     font-size: 1.4rem;
     padding: 5px;
     border: 1px solid #aaa;
@@ -69,46 +76,60 @@ input, select, textarea{
     -o-transition: all 0.30s ease-in-out;
     outline: none;
 }
-input:focus, select:focus, textarea:focus{
+
+input:focus,
+select:focus,
+textarea:focus {
     border: 1px solid #256cc6;
     box-shadow: 0 0 5px #256cc6;
 }
-select{
+
+select {
     width: 100%;
-}
-input, textarea{
-    width: calc(100% - 13px); 
 }
 
-.frm-x1{
+input,
+textarea {
+    width: calc(100% - 13px);
+}
+
+.frm-x1 {
     width: 100%;
 }
-.frm-x2, .frm-x3{
+
+.frm-x2,
+.frm-x3 {
     position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.frm-x1 .form-group{
+
+.frm-x1 .form-group {
     width: 100%;
 }
-.frm-x2 .form-group{
+
+.frm-x2 .form-group {
     width: 49%;
 }
-.frm-x3 .form-group{
+
+.frm-x3 .form-group {
     width: 32%;
 }
-.form-group{
+
+.form-group {
     position: relative;
     margin-bottom: 10px;
 }
+
 .form-group label {
     display: block;
     font-size: 1.4rem;
     color: #aaa;
     margin-bottom: 5px;
 }
-.input-sugestions{
+
+.input-sugestions {
     position: absolute;
     top: 105%;
     width: 100%;
@@ -118,16 +139,19 @@ input, textarea{
     border: 1px solid #eee;
     z-index: 2;
 }
-.input-sugestion{
+
+.input-sugestion {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     cursor: pointer;
 }
-.input-sugestion:hover{
+
+.input-sugestion:hover {
     background: #eee;
 }
-button{
+
+button {
     display: block;
     padding: 10px 30px;
     background: #001f47;
@@ -135,11 +159,13 @@ button{
     outline: 0;
     margin: 0 auto;
 }
-.main-minor-wrap{
+
+.main-minor-wrap {
     @extend .nice-scroll;
     width: 100%;
     height: auto;
 }
+
 .top-title {
     width: 100%;
     text-align: center;
@@ -147,27 +173,31 @@ button{
     font-weight: bold;
     margin-bottom: 10px;
     margin-top: 10px;
-    cursor: pointer; 
+    cursor: pointer;
 }
-.main-title{
+
+.main-title {
     color: #fff;
     width: 100%;
     text-align: center;
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
 }
-.c1{
+
+.c1 {
     color: $c1;
     background: #fff;
     padding: 5px 10px;
     box-sizing: border-box;
     border: 1px solid #fff;
 }
-.c2{
+
+.c2 {
     color: #fff;
     border: 0.5px solid #fff;
     padding: 5px 10px;
     box-sizing: border-box;
 }
+
 .frm-array-btn {
     padding: 15px;
     background: #256cc6;
@@ -176,13 +206,14 @@ button{
     border-radius: 100%;
     cursor: pointer;
 }
+
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
     display: inline-block;
-  }
-  
-  .btn { 
+}
+
+.btn {
     border: 1px solid #bd0020;
     color: #bd0020;
     background-color: white;
@@ -192,31 +223,35 @@ button{
     font-weight: bold;
     cursor: pointer;
 }
-  
-  .upload-btn-wrapper input[type=file] {
+
+.upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;
     left: 0;
     top: 0;
     opacity: 0;
-  }
-.seperator{
+}
+
+.seperator {
     margin: 30px 0;
     width: 100%;
 }
-.barcode-view img{
+
+.barcode-view img {
     width: 120px;
     margin-right: 30px;
 }
-.cta-wrap{
+
+.cta-wrap {
     display: flex;
     margin: 0px auto;
-    margin-top: 40px; 
+    margin-top: 40px;
     width: 605px;
     justify-content: center;
     align-items: center;
 }
-.cta{
+
+.cta {
     padding: 10px 25px;
     font-size: 2rem;
     color: #fff;
@@ -225,6 +260,7 @@ button{
     width: 300px;
     cursor: pointer;
 }
+
 .pg-title {
     width: 100%;
     text-align: center;
@@ -232,6 +268,7 @@ button{
     font-size: 1.8rem;
     color: #777;
 }
+
 .onpg-modal-wrap {
     width: 500px;
     padding: 20px;
@@ -239,10 +276,11 @@ button{
     border: 1px solid #777;
     margin: 0 auto;
     border-radius: 10px;
-    -webkit-box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 39px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 39px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 39px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 39px 0px rgba(0, 0, 0, 0.75);
 }
+
 .or-sect {
     font-size: 1.4rem;
     margin-top: 10px;
@@ -250,9 +288,12 @@ button{
     cursor: pointer;
     text-decoration: underline;
 }
-.or-sect:hover, .or-sect span{
+
+.or-sect:hover,
+.or-sect span {
     font-weight: bold;
-}  
+}
+
 .modal-title {
     width: 100%;
     text-align: center;
