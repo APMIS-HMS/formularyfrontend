@@ -50,12 +50,13 @@
 span.keyword {
     font-style: italic;
     text-decoration: underline;
-    color: $link;
+    color: $green-4;
 }
 
 .main-returned {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: $link;
+    margin-bottom: 5px;
 }
 
 ul.other-returned {
@@ -71,7 +72,7 @@ ul.other-returned li {
 }
 
 span.val-label {
-    color: rgb(3, 107, 163);
+    color: $green-4;
     padding-right: 10px;
     font-style: italic;
 }
