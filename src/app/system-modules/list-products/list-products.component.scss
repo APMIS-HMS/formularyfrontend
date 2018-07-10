@@ -44,12 +44,14 @@
     margin-bottom: 5px;
     font-size: 1.6rem;
     color: #999;
-    text-align: right;
+    border-bottom: 1px solid #bd0020;
+    /* text-align: right; */
+    padding-bottom: 5px;
 }
 
 span.keyword {
     font-style: italic;
-    text-decoration: underline;
+    // text-decoration: underline;
     color: $green-4;
 }
 

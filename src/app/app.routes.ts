@@ -1,6 +1,6 @@
 import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
 // import { SwitchUserResolverService } from './resolvers/module-menu/index';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 
 const appRoutes: Routes = [
   {
@@ -16,7 +16,7 @@ const appRoutes: Routes = [
   {
     path: '', redirectTo: 'auth', pathMatch: 'full'
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', loadChildren: './system-modules/system-modules.module#SystemModule'}
 ];
 
 // export default RouterModule.forRoot(appRoutes);

@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SystemModulesComponent } from './system-modules.component';
 import { ListProductsComponent } from './list-products/list-products.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const SYSTEMMODULES_ROUTES: Routes = [
   {
@@ -19,6 +20,7 @@ const SYSTEMMODULES_ROUTES: Routes = [
       {
         path: '', redirectTo: 'products', pathMatch: 'full'
       },
+      { path: '**', component: PageNotFoundComponent }
     ]
   }
 ];

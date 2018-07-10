@@ -7,12 +7,14 @@ import { systemModulesRoutes } from './system-modules.routes';
 import { SystemModulesComponent } from './system-modules.component';
 import { ProductService } from '../services/product.service';
 import { ProductTypeService } from '../services/product-type.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
   SystemModulesComponent,
   ListProductsComponent,
-  AddProductComponent],
+  AddProductComponent,
+  PageNotFoundComponent],
   exports: [ 
   ],
   imports: [
