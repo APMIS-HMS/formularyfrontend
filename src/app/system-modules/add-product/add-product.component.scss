@@ -69,10 +69,6 @@ li.li-tbl-body-row:hover {
         height: auto;
         margin-bottom: 20px;
     }
-    .cta {
-        width: 80%;
-        margin-bottom: 30px;
-    }
 }
 .top-actions{
     display: flex;
@@ -133,4 +129,22 @@ li.li-tbl-body-row:hover {
 .cta{
     width: auto !important; 
     font-size: 1.4rem;
+}
+
+@media screen and (max-width: 700px) {
+    .input-grp{
+        display: block;
+    }
+    .side-sect{
+        width: 100%;
+    }
+    .mid-sect{
+        text-align: center;
+        width: 100%;
+        padding: 5px 0;
+        margin: 5px 0;
+    }
+    .cta{
+        margin-bottom: 0;
+    }
 }
