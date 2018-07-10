@@ -259,3 +259,9 @@ button{
     font-size: 1.4rem;
     color: #000;
 }
+
+@media only screen and (max-width: 800px) {
+    .onpg-modal-wrap{
+        width: 80%;
+    }
+}
