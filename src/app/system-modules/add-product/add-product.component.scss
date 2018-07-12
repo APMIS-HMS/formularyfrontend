@@ -89,12 +89,18 @@ li.li-tbl-body-row:hover {
     width: 80%;
 }
 .plus-btn{
-    font-size: 4rem;
+    font-size: 3rem;
     cursor: pointer;
     font-weight: 900;
     color: #aaa;
+    position: absolute;
+    bottom: 9px;
+    right: 30px;
 }
-.plus-btn:hover{
+.x-btn{
+    font-size: 2rem;
+    cursor: pointer;
+    font-weight: 900;
     color: #bd0020;
 }
 .side-sect{
@@ -129,6 +135,9 @@ li.li-tbl-body-row:hover {
 .cta{
     width: auto !important; 
     font-size: 1.4rem;
+}
+.reg-outer{
+    position: relative;
 }
 
 @media screen and (max-width: 700px) {

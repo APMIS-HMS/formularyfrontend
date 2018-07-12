@@ -68,25 +68,23 @@
         </div>
 
         <div class="frm-x2">
-            <div class="form-group">
-                <label for="frequency">Product Image</label>
+            <div style="display: flex;" class="form-group">
                 <div class="img-box">
-                    <button (click)="showImageBrowseDlg()" class="btn btn-medium btn-blue" style="width: 100%; margin-bottom: 5px;">Search Photo</button>
+                    <button (click)="showImageBrowseDlg()" class="btn btn-medium btn-blue" style="width: 100%; margin-bottom: 5px;">Upload Product Image</button>
                 </div>
                 <div class="img-holder-box">
                     <input style="display:none" accept="image/x-png,image/jpeg" #fileInput (change)="onChangeUpload();" type="file" class="form-control">
                     <div style="padding-left: 20px;" class="placehold-wrap">
-                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/img/users/default.png" />
+                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/images/default.png" /> 
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="frequency">Regimen</label>
-                <div class="regimen-wrap" formArrayName="regimens">
-                    <div class="input-grp" *ngFor="let regimen of frm_newProduct.controls['regimens']['controls']; let i=index;">
-                        <div [formGroupName]="i">
-                            <div class="side-sect">
-                                <label>Frequency
+                <div class="reg-outer" formArrayName="regimens">
+                    <div class="regimen-wrap" *ngFor="let regimen of frm_newProduct.controls['regimens']['controls']; let i=index;">
+                        <div class="input-grp" [formGroupName]="i">
+                            <div>
+                                <label>Frequency 
                                   <select formControlName="frequency">
                                       <option *ngFor="let frequency of frequencies">{{ frequency.name }}</option>
                                   </select>
@@ -104,7 +102,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="plus-btn" *ngIf="frm_newProduct.controls['regimens']['controls'].length > 1" (click)="removeRegimen(i)">-</div>
+                        <div class="x-btn" *ngIf="frm_newProduct.controls['regimens']['controls'].length > 1" (click)="removeRegimen(i)"><i class="fa fa-times"></i></div>
                     </div>
                     <div class="plus-btn" (click)="addRegimen();">+</div>
                 </div>
