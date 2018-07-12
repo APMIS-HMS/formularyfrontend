@@ -1,7 +1,4 @@
-<div class="pg-title">
-
-    Add Product</div>
-
+<div class="pg-title">Add Product</div>
 <div class="top-actions">
     <div>
         <button (click)="prod_list()" class="cta"><i class="fa fa-arrow-left"></i> Back</button>
@@ -13,13 +10,13 @@
         <div class="form-group">
             <label for="productType">Product Type</label>
             <select formControlName="productType">
-                <option *ngFor="let productType of productTypes" value="Tablet">{{productType.name}}</option>
+                <option *ngFor="let productType of productTypes" value="{{productType.name}}">{{productType.name}}</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="brand">Brand Name</label>
-            <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
+            <input formControlName="brand" (focus)="onBrandKeydown('in')" (focusout)="onBrandKeydown('out')" type="text" class="form-control" required>
 
             <ul *ngIf="brandSuggest" class="input-sugestions">
                 <li *ngIf="bLoading && brands.length === 0" class="input-sugestion">
@@ -38,7 +35,7 @@
         <div class="frm-x2">
             <div class="form-group">
                 <label for="manufacturer">Manufacturer</label>
-                <input formControlName="manufacturer" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
+                <input formControlName="manufacturer" (focus)="onManfacturerKeydown('in')" (focusout)="onManfacturerKeydown('out')" type="text" class="form-control" required>
 
                 <ul *ngIf="manufacturerSuggest" class="input-sugestions">
                     <li *ngIf="mLoading && manufacturers.length === 0" class="input-sugestion">
@@ -47,12 +44,12 @@
                     <li *ngIf="!mLoading && manufacturers.length === 0" class="input-sugestion">
                         <div class="text-center"><span>{{ manufacturerText }}</span></div>
                     </li>
-                    <li *ngFor="let manufacturer of manufacturers" (click)="brand_suggestion_click(manufacturer)" class="input-sugestion">{{manufacturer.name}}</li>
+                    <li *ngFor="let manufacturer of manufacturers" (click)="manufacturer_suggestion_click(manufacturer)" class="input-sugestion">{{manufacturer.name}}</li>
                 </ul>
             </div>
             <div class="form-group">
                 <label for="ingrident">Ingrident + Strength + Dose Form</label>
-                <input formControlName="ingredient" (keydown)="onKeydown()" type="text" class="form-control" required>
+                <input formControlName="ingredient" (focus)="onIngredientKeydown('in')" (focusout)="onIngredientKeydown('out')" type="text" class="form-control" required>
 
                 <ul *ngIf="ingredientSuggest" class="input-sugestions">
                     <li *ngIf="inLoading && ingredients.length === 0" class="input-sugestion">
@@ -73,7 +70,15 @@
         <div class="frm-x2">
             <div class="form-group">
                 <label for="frequency">Product Image</label>
-                <input formControlName="upload" type="file" class="form-control">
+                <div class="img-box">
+                    <button (click)="showImageBrowseDlg()" class="btn btn-medium btn-blue" style="width: 100%; margin-bottom: 5px;">Search Photo</button>
+                </div>
+                <div class="img-holder-box">
+                    <input style="display:none" accept="image/x-png,image/jpeg" #fileInput (change)="onChangeUpload();" type="file" class="form-control">
+                    <div style="padding-left: 20px;" class="placehold-wrap">
+                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/img/users/default.png" />
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="frequency">Regimen</label>
@@ -109,4 +114,7 @@
     </div>
 </form>
 
-<button class="cta">Save Product</button>
+<button class="cta" (click)="onClickSaveProduct(frm_newProduct.valid, frm_newProduct.value);" [disabled]="disableBtn || !frm_newProduct.valid">
+  <span *ngIf="saveProduct"><i class="fa fa-check"></i> Save Product</span>
+  <span *ngIf="savingProduct">Saving Product... <i class="fa fa-spin fa-spinner"></i></span>
+</button>

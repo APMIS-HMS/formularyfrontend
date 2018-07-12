@@ -5,12 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { systemModulesRoutes } from './system-modules.routes';
 import { SystemModulesComponent } from './system-modules.component';
-import { ProductService } from '../services/product.service';
-import { ProductTypeService } from '../services/product-type.service';
-import { RXNConsoService } from '../services/rxnconso.service';
-import { IngredientService } from '../services/ingredient.service';
-import { ManufacturerService } from '../services/manufacturer.service';
-import { FrequencyService } from '../services/frequency.service';
+import {
+  ProductService, ProductTypeService, RXNConsoService, IngredientService, ManufacturerService,
+  FrequencyService, BrandedProductService } from '../services/index';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
@@ -28,6 +25,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     FormsModule,
     CommonModule
   ],
-  providers: [ ProductService, ProductTypeService, RXNConsoService, IngredientService, ManufacturerService, FrequencyService ]
+  providers: [ ProductService, ProductTypeService, RXNConsoService, IngredientService, ManufacturerService,
+    FrequencyService, BrandedProductService ]
 })
 export class SystemModule { }

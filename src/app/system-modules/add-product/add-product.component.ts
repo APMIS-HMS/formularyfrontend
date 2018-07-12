@@ -1,15 +1,13 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { ProductTypeService } from '../../services/product-type.service';
-import { BrandService } from '../../services/brand.service';
-import { ProductService } from '../../services/product.service';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { RXNConsoService } from '../../services/rxnconso.service';
-import { IngredientService } from '../../services/ingredient.service';
-import { ManufacturerService } from '../../services/manufacturer.service';
 import { DurationUnits } from '../../shared-modules/global-config';
-import { FrequencyService } from '../../services/frequency.service';
+import {
+  BrandedProductService, ManufacturerService, IngredientService, ProductService, BrandService, ProductTypeService,
+  FrequencyService, SystemModuleService
+ } from '../../services/index';
+import { log } from 'util';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -17,10 +15,12 @@ import { FrequencyService } from '../../services/frequency.service';
 })
 export class AddProductComponent implements OnInit {
   @Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
-  brandSuggest: boolean;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('imageHolder') imageHolder: ElementRef;
   productTypes: any;
   suggest = false;
   searchPage = false;
+  brandSuggest = false;
   productSuggest = false;
   ingredientSuggest = false;
   manufacturerSuggest = false;
@@ -39,16 +39,20 @@ export class AddProductComponent implements OnInit {
   ingredientText = 'Character must be greater than 3';
   mLoading = true;
   manufacturerText = 'Character must be greater than 3';
+  disableBtn = false;
+  saveProduct = true;
+  savingProduct = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
+    private _brandedProductService: BrandedProductService,
     private productTypeService: ProductTypeService,
     private brandService: BrandService,
+    private _systemModuleService: SystemModuleService,
     private _manufacturerService: ManufacturerService,
     private _ingredientService: IngredientService,
     private _frequencyService: FrequencyService,
-    private _rxnConsoService: RXNConsoService,
     private _router: Router
   ) { }
 
@@ -61,7 +65,7 @@ export class AddProductComponent implements OnInit {
       productType: ['', [<any>Validators.required]],
       brand: ['', [<any>Validators.required]],
       ingredient: ['', [<any>Validators.required]],
-      upload: ['', [<any>Validators]],
+      upload: [''],
       manufacturer: ['', [<any>Validators.required]],
       regimens: this.formBuilder.array([this._initRegimen()])
     });
@@ -70,26 +74,26 @@ export class AddProductComponent implements OnInit {
 
     this.frm_newProduct.controls['brand'].valueChanges
       .pipe(tap(val => {
-        if (val.length < 3) {
-          this.brandText = 'Character must be greater than 3';
-        }
-        console.log(val); this.brands = []; this.bLoading = false;
+        // if (val.length < 3) {
+        //   this.brandText = 'Character must be greater than 3';
+        // }
+        this.brands = []; this.bLoading = true;
       }), debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
-        console.log(value);
-        this.selectedBrand = undefined;
-        if (value.length >= 3 && this.isSelected === false) {
-          this._rxnConsoService.find({
-            query: { TTY: 'BN', STR: { '$regex': value, '$options': 'i' }, $limit: 10 }
+        // this.selectedBrand = undefined;
+        if (value.length >= 3 && !this.isSelected) {
+          this.bLoading = true;
+          this.brandService.find({
+            query: { search: value, $limit: 20 }
           }).then(res => {
             console.log(res);
+            this.bLoading = false;
             this.isSelected = false;
-            if (res.data.length > 0) {
+            if (res.status === 'success' && !!res.data && !!res.data.data && res.data.data.length > 0) {
               this.brandSuggest = true;
-              this.brands = res.data;
+              this.brands = res.data.data;
             } else {
               this.brandText = 'Search is empty';
-              this.brandSuggest = false;
               this.brands = [];
             }
           });
@@ -100,25 +104,23 @@ export class AddProductComponent implements OnInit {
 
     this.frm_newProduct.controls['ingredient'].valueChanges
       .pipe(tap(val => {
-        if (val.length < 3) {
-          this.ingredientText = 'Character must be greater than 3';
-        }
-        console.log(val); this.ingredients = []; this.inLoading = false;
+        // if (val.length < 3) {
+        //   this.ingredientText = 'Character must be greater than 3';
+        // }
+        this.ingredients = []; this.inLoading = true;
       }), debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
-        console.log(value);
-        this.selectedIngredient = undefined;
-        if (value.length >= 3 && this.isSelected === false) {
+        console.log(this.selectedIngredient);
+        if (value.length >= 3 && !this.isSelected) {
           this._ingredientService.find({ query: { search: value, $limit: 20 }}).then(res => {
             console.log(res);
+            this.inLoading = false;
             this.isSelected = false;
             if (res.status === 'success' && res.data.length > 0) {
-              console.log(res.data);
               this.ingredientSuggest = true;
               this.ingredients = res.data;
             } else {
               this.ingredientText = 'Search is empty';
-              this.ingredientSuggest = false;
               this.ingredients = [];
             }
           });
@@ -129,25 +131,25 @@ export class AddProductComponent implements OnInit {
 
     this.frm_newProduct.controls['manufacturer'].valueChanges
       .pipe(tap(val => {
-        if (val.length < 3) {
-          this.manufacturerText = 'Character must be greater than 3';
-        }
-        this.manufacturers = []; this.mLoading = false;
+        // if (val.length < 3) {
+        //   this.manufacturerText = 'Character must be greater than 3';
+        // }
+        this.manufacturers = []; this.mLoading = true;
       }), debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
-        console.log(value);
-        this.selectedManufacturer = undefined;
-        if (value.length >= 3 && this.isSelected === false) {
-          this._manufacturerService.find({ search: 'amoxi' }).then(res => {
+        // this.selectedManufacturer = undefined;
+
+        if (value.length >= 3 && !this.isSelected) {
+          this.mLoading = true;
+          this._manufacturerService.find({ search: value }).then(res => {
             console.log(res);
+            this.mLoading = false;
             this.isSelected = false;
             if (res.data.length > 0) {
-              console.log(res.data.data);
               this.manufacturerSuggest = true;
-              this.manufacturers = res.data.data;
+              this.manufacturers = res.data;
             } else {
               this.manufacturerText = 'Search is empty';
-              this.manufacturerSuggest = false;
               this.manufacturers = [];
             }
           });
@@ -157,6 +159,57 @@ export class AddProductComponent implements OnInit {
       });
 
     this.getProductTypes();
+  }
+
+  onClickSaveProduct(valid: boolean, value: any) {
+    console.log(valid);
+    console.log(value);
+    if (valid) {
+      console.log(this.selectedIngredient);
+      if (!!this.selectedIngredient) {
+        this.disableBtn = true;
+        this.saveProduct = false;
+        this.savingProduct = true;
+        const payload = {
+          PRODUCT_TYPE: value.productType.toUpperCase(),
+          BN: value.brand,
+          MAT: value.manufacturer,
+          SCD: {
+            STR: this.selectedIngredient.name,
+            RXCUI: this.selectedIngredient.code
+          },
+          BNBase64: value.upload,
+          REGIMENS: value.regimens
+        };
+
+        console.log(payload);
+        // Call the API to save create-branded-products
+        this._brandedProductService.create(payload).then(res => {
+          console.log(res);
+          if (res.status === 'success') {
+            this.frm_newProduct.reset();
+            this.imageHolder.nativeElement.src = '';
+            this.frm_newProduct.controls['upload'].setValue('');
+            this.disableBtn = false;
+            this.saveProduct = true;
+            this.savingProduct = false;
+            const msg = `You have successfully created ${value.brand} as a product`;
+            this._systemModuleService.announceSweetProxy(msg, 'success');
+          } else {
+            this.disableBtn = false;
+            this.saveProduct = true;
+            this.savingProduct = false;
+            this._systemModuleService.announceSweetProxy('You must select ingredient from the drop down', 'error');
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      } else {
+        this._systemModuleService.announceSweetProxy('You must select ingredient from the drop down', 'error');
+      }
+    } else {
+      this._systemModuleService.announceSweetProxy('Some fields are missing', 'error');
+    }
   }
 
   _initRegimen(regimen?: any) {
@@ -188,29 +241,66 @@ export class AddProductComponent implements OnInit {
     }).catch(err => {});
   }
 
-  onProductKeydown() {
-    //  return this.productSuggest;
+  onBrandKeydown(focus) {
+    if (focus === 'in') {
+      this.bLoading = false;
+      this.brandSuggest = true;
+    } else {
+      setTimeout(() => {
+        this.brandSuggest = false;
+      }, 300);
+    }
   }
 
-  onBrandKeydown() {
-    this.brandSuggest = true;
+  onManfacturerKeydown(focus) {
+    if (focus === 'in') {
+      this.mLoading = false;
+      this.manufacturerSuggest = true;
+    } else {
+      setTimeout(() => {
+        this.manufacturerSuggest = false;
+      }, 300);
+    }
   }
-  onDrugFormKeydown() {
 
+  onIngredientKeydown(focus) {
+    if (focus === 'in') {
+      this.inLoading = false;
+      this.ingredientSuggest = true;
+    } else {
+      setTimeout(() => {
+        this.ingredientSuggest = false;
+      }, 300);
+    }
   }
+
+  showImageBrowseDlg() {
+    this.fileInput.nativeElement.click()
+  }
+
+  onChangeUpload() {
+    this._systemModuleService.on();
+    const input = this.fileInput.nativeElement;
+    console.log(input.files[0]);
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      const that = this;
+      reader.onload = function (e: any) {
+        console.log(e);
+        that._systemModuleService.off();
+        that.imageHolder.nativeElement.src = e.target.result;
+        that.frm_newProduct.controls['upload'].setValue(e.target.result);
+        // that.fileInput.nativeElement.src = e.target.result;
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   getProductTypes() {
     this.productTypeService.find({ query: {} }).then(payload => {
       this.productTypes = payload.data;
     });
-  }
-  onKeydown() {
-    this.suggest = true;
-  }
-  suggestion_click() {
-    this.suggest = false;
-  }
-  nav_search() {
-    this.searchPage = true;
   }
 
   brand_suggestion_click(value) {

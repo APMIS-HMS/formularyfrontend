@@ -1,10 +1,10 @@
-import { BrandService } from './services/brand.service';
 import { SocketService, RestService } from './feathers/feathers.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
+import { BrandService, SystemModuleService } from './services/index';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { ROUTES } from './app.routes';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [BrandService, SocketService, RestService],
+  providers: [BrandService, SocketService, RestService, SystemModuleService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
