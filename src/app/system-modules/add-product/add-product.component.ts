@@ -207,9 +207,9 @@ export class AddProductComponent implements OnInit {
 
   _initRegimen(regimen?: any) {
       return this.formBuilder.group({
-        frequency: [!!regimen ? regimen.frequency : '', Validators.required],
-        duration: [!!regimen ? regimen.duration : '', Validators.required],
-        unit: [!!regimen ? regimen.unit : '', Validators.required],
+        frequency: [!!regimen ? regimen.frequency : ''],
+        duration: [!!regimen ? regimen.duration : ''],
+        unit: [!!regimen ? regimen.unit : ''],
       });
   }
 
