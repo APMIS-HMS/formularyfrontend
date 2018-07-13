@@ -55,11 +55,12 @@ export class SignupComponent implements OnInit {
   }
 
   sweetAlertCallback(result, from) {
-    this.signin('login');
+    this.login('login');
   }
 
-  signin(route?: any) {
+  login(route?: any) {
     console.log(route);
+    (!!route && route !== null) ? route = route : route = 'login';
     this._router.navigate([`/auth/${route}`]);
   }
 }

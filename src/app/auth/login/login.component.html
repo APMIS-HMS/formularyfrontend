@@ -1,20 +1,20 @@
 <div class="onpg-modal-wrap">
 
-  <div class="modal-title">System Login</div>
+    <div class="modal-title">System Login</div>
 
-  <form [formGroup]="frm_login" novalidate>
-      <div class="form-group">
-      <label for="username">Userneme</label>
-      <input formControlName="username" type="text" class="form-control" required>
-      </div>
-      <div class="form-group">
-      <label for="password">Password</label>
-      <input formControlName="password" type="password" class="form-control" required>
-      </div>
+    <form [formGroup]="loginGroup" novalidate>
+        <div class="form-group">
+            <label for="username">Userneme</label>
+            <input formControlName="username" type="text" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input formControlName="password" type="password" class="form-control" required>
+        </div>
 
-      <div class="btn-center-wrap">
-          <button type="submit" (click)="signin_click(frm_login.value)" class="btn btn-primary">Login <i class="fa fa-sign-in"></i></button>
-      </div>
-      <div (click)="signup(frm_login.value)" class="or-sect">don't have an account yet? <span>Register</span></div>
-  </form>
+        <div class="btn-center-wrap">
+            <button type="submit" (click)="onClickLogin(loginGroup.valid, loginGroup.value)" class="btn btn-primary">Login <i class="fa fa-sign-in"></i></button>
+        </div>
+    </form>
+    <div (click)="onClickSignUp('signup')" class="or-sect">don't have an account yet? <span>Register</span></div>
 </div>

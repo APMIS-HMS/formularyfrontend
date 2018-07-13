@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SystemModuleService } from '../../services';
 
 @Component({
   selector: 'app-login',
@@ -8,23 +9,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public loginGroup: FormGroup;
 
-  public frm_login: FormGroup;
-
-  constructor(private formBuilder: FormBuilder,private _router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private _router: Router,
+    private _systemModuleService: SystemModuleService
+  ) { }
 
   ngOnInit() {
-    this.frm_login = this.formBuilder.group({
+    this.loginGroup = this.formBuilder.group({
       username: ['', [<any>Validators.required]],
       password: ['', [<any>Validators.required]]
     });
   }
 
-  signin_click(params){
-    this._router.navigate(['/modules/products']);
-  } 
-  signup(){
-    this._router.navigate(['/auth/signup']);
-  } 
+  onClickSignUp(route) {
+    this._router.navigate([`/auth/${route}`]);
+  }
+
+  onClickLogin(valid: boolean, value: any) {
+    if (valid) {
+      this._router.navigate(['/modules/products']);
+    } else {
+      this._systemModuleService.announceSweetProxy('Some fields are missing!', 'error');
+    }
+  }
 
 }
