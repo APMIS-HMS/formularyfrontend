@@ -81,12 +81,11 @@ export class AddProductComponent implements OnInit {
       }), debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
         // this.selectedBrand = undefined;
-        if (value.length >= 3 && !this.isSelected) {
+        if (!!value && value.length >= 3 && !this.isSelected) {
           this.bLoading = true;
           this.brandService.find({
             query: { search: value, $limit: 20 }
           }).then(res => {
-            console.log(res);
             this.bLoading = false;
             this.isSelected = false;
             if (res.status === 'success' && !!res.data && !!res.data.data && res.data.data.length > 0) {
@@ -110,10 +109,8 @@ export class AddProductComponent implements OnInit {
         this.ingredients = []; this.inLoading = true;
       }), debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
-        console.log(this.selectedIngredient);
-        if (value.length >= 3 && !this.isSelected) {
-          this._ingredientService.find({ query: { search: value, $limit: 20 }}).then(res => {
-            console.log(res);
+        if (!!value && value.length >= 3 && !this.isSelected) {
+          this._ingredientService.find({ query: { search: value, $limit: 100 }}).then(res => {
             this.inLoading = false;
             this.isSelected = false;
             if (res.status === 'success' && res.data.length > 0) {
@@ -139,10 +136,9 @@ export class AddProductComponent implements OnInit {
       .subscribe(value => {
         // this.selectedManufacturer = undefined;
 
-        if (value.length >= 3 && !this.isSelected) {
+        if (!!value && value.length >= 3 && !this.isSelected) {
           this.mLoading = true;
-          this._manufacturerService.find({ search: value }).then(res => {
-            console.log(res);
+          this._manufacturerService.find({ query: { name: { '$regex': value, '$options': 'i' }, $limit: 20} }).then(res => {
             this.mLoading = false;
             this.isSelected = false;
             if (res.data.length > 0) {
@@ -162,10 +158,7 @@ export class AddProductComponent implements OnInit {
   }
 
   onClickSaveProduct(valid: boolean, value: any) {
-    console.log(valid);
-    console.log(value);
     if (valid) {
-      console.log(this.selectedIngredient);
       if (!!this.selectedIngredient) {
         this.disableBtn = true;
         this.saveProduct = false;
@@ -188,7 +181,7 @@ export class AddProductComponent implements OnInit {
           console.log(res);
           if (res.status === 'success') {
             this.frm_newProduct.reset();
-            this.imageHolder.nativeElement.src = '';
+            this.imageHolder.nativeElement.src = 'assets/images/default.png';
             this.frm_newProduct.controls['upload'].setValue('');
             this.disableBtn = false;
             this.saveProduct = true;
@@ -281,12 +274,10 @@ export class AddProductComponent implements OnInit {
   onChangeUpload() {
     this._systemModuleService.on();
     const input = this.fileInput.nativeElement;
-    console.log(input.files[0]);
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       const that = this;
       reader.onload = function (e: any) {
-        console.log(e);
         that._systemModuleService.off();
         that.imageHolder.nativeElement.src = e.target.result;
         that.frm_newProduct.controls['upload'].setValue(e.target.result);
