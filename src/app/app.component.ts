@@ -73,6 +73,24 @@ export class AppComponent implements OnInit {
       }).then(result => {
         value.cp.sweetAlertCallback(result, value.from);
       });
+    } else if (value.type === 'timer') {
+      let timerInterval;
+      swal({
+        title: value.title,
+        html: value.html,
+        timer: (value.timer !== undefined && value.timer !== null) ? value.timer : 2000,
+        onOpen: () => {
+          swal.showLoading();
+          timerInterval = setInterval(() => {
+            swal.getContent().querySelector('strong').textContent = '2';
+          }, 100);
+        },
+        onClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        value.cp.sweetAlertCallback(result, value.from);
+      });
     }
   }
 

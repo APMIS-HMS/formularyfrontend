@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
-import { BrandService, SystemModuleService } from './services/index';
+import { BrandService, SystemModuleService, UserService } from './services';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { BrandService, SystemModuleService } from './services/index';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [BrandService, SocketService, RestService, SystemModuleService ],
+  providers: [BrandService, SocketService, RestService, SystemModuleService, UserService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

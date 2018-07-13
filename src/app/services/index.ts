@@ -7,6 +7,7 @@ import { ManufacturerService } from './manufacturer.service';
 import { FrequencyService } from './frequency.service';
 import { BrandedProductService } from './branded-product.service';
 import { SystemModuleService } from './system-module.service';
+import { UserService } from './user.service';
 
 export {
   BrandService,
@@ -17,5 +18,6 @@ export {
   ManufacturerService,
   FrequencyService,
   BrandedProductService,
-  SystemModuleService
+  SystemModuleService,
+  UserService
 };
