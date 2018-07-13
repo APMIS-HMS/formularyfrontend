@@ -75,7 +75,7 @@
                 <div class="img-holder-box">
                     <input style="display:none" accept="image/x-png,image/jpeg" #fileInput (change)="onChangeUpload();" type="file" class="form-control">
                     <div style="padding-left: 20px;" class="placehold-wrap">
-                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/images/default.png" /> 
+                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/images/default.png" />
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     <div class="regimen-wrap" *ngFor="let regimen of frm_newProduct.controls['regimens']['controls']; let i=index;">
                         <div class="input-grp" [formGroupName]="i">
                             <div>
-                                <label>Frequency 
+                                <label>Frequency
                                   <select formControlName="frequency">
                                       <option *ngFor="let frequency of frequencies">{{ frequency.name }}</option>
                                   </select>
@@ -102,7 +102,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="x-btn" *ngIf="frm_newProduct.controls['regimens']['controls'].length > 1" (click)="removeRegimen(i)"><i class="fa fa-times"></i></div>
+                        <div class="x-btn" (click)="removeRegimen(i)"><i class="fa fa-times"></i></div>
                     </div>
                     <div class="plus-btn" (click)="addRegimen();">+</div>
                 </div>

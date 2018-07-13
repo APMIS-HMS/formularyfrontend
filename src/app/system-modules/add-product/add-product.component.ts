@@ -67,7 +67,7 @@ export class AddProductComponent implements OnInit {
       ingredient: ['', [<any>Validators.required]],
       upload: [''],
       manufacturer: ['', [<any>Validators.required]],
-      regimens: this.formBuilder.array([this._initRegimen()])
+      regimens: this.formBuilder.array([])
     });
 
     this._getFrequencies();
@@ -158,6 +158,8 @@ export class AddProductComponent implements OnInit {
   }
 
   onClickSaveProduct(valid: boolean, value: any) {
+    console.log(valid);
+    console.log(value);
     if (valid) {
       if (!!this.selectedIngredient) {
         this.disableBtn = true;
@@ -207,9 +209,12 @@ export class AddProductComponent implements OnInit {
 
   _initRegimen(regimen?: any) {
       return this.formBuilder.group({
-        frequency: [!!regimen ? regimen.frequency : ''],
-        duration: [!!regimen ? regimen.duration : ''],
-        unit: [!!regimen ? regimen.unit : ''],
+        frequency: [''],
+        duration: [''],
+        unit: ['']
+        // frequency: [!!regimen ? regimen.frequency : ''],
+        // duration: [!!regimen ? regimen.duration : ''],
+        // unit: [!!regimen ? regimen.unit : '']
       });
   }
 
