@@ -1,100 +1,118 @@
-<div class="pg-wrap">
-    <div class="pg-header">
-        <div (click)="home_onClick()" class="top-title">
-            <span class="c1">APMIS</span>
-            <span class="c2">Formulary</span>
+<div class="pg-title">Add Product</div>
+<div class="top-actions">
+    <div>
+        <button (click)="prod_list()" class="cta"><i class="fa fa-arrow-left"></i> Back</button>
+    </div>
+</div>
+
+<form class="add-frm" novalidate [formGroup]="frm_newProduct">
+    <div class="frm-x2">
+        <div class="form-group">
+            <label for="productType">Product Type</label>
+            <select formControlName="productType">
+                <option *ngFor="let productType of productTypes" value="{{productType.name}}">{{productType.name}}</option>
+            </select>
         </div>
-        <div class="main-title">uniquely identify health product</div>
+
+        <div class="form-group">
+            <label for="brand">Brand Name</label>
+            <input formControlName="brand" (focus)="onBrandKeydown('in')" (focusout)="onBrandKeydown('out')" type="text" class="form-control" required>
+
+            <ul *ngIf="brandSuggest" class="input-sugestions">
+                <li *ngIf="bLoading && brands.length === 0" class="input-sugestion">
+                    <div class="text-center"><i class="fa fa-spin fa-spinner"></i></div>
+                </li>
+                <li *ngIf="!bLoading && brands.length === 0" class="input-sugestion">
+                    <div class="text-center"><span>{{ brandText }}</span></div>
+                </li>
+                <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="pg-title">Add Product</div>
+    <div *ngIf="!productSuggest" class="enclosed-inputs">
 
-    <form class="add-frm" novalidate [formGroup]="frm_newProduct">
         <div class="frm-x2">
             <div class="form-group">
-                <label for="productType">Product Type</label>
-                <select formControlName="productType">
-                  <option *ngFor="let productType of productTypes" value="Tablet">{{productType.name}}</option>
-                </select>
+                <label for="manufacturer">Manufacturer</label>
+                <input formControlName="manufacturer" (focus)="onManfacturerKeydown('in')" (focusout)="onManfacturerKeydown('out')" type="text" class="form-control" required>
+
+                <ul *ngIf="manufacturerSuggest" class="input-sugestions">
+                    <li *ngIf="mLoading && manufacturers.length === 0" class="input-sugestion">
+                        <div class="text-center"><i class="fa fa-spin fa-spinner"></i></div>
+                    </li>
+                    <li *ngIf="!mLoading && manufacturers.length === 0" class="input-sugestion">
+                        <div class="text-center"><span>{{ manufacturerText }}</span></div>
+                    </li>
+                    <li *ngFor="let manufacturer of manufacturers" (click)="manufacturer_suggestion_click(manufacturer)" class="input-sugestion">{{manufacturer.name}}</li>
+                </ul>
             </div>
-
             <div class="form-group">
-                <label for="brand">Brand Name</label>
-                <input formControlName="brand" (keydown)="onBrandKeydown()" type="text" class="form-control" required>
+                <label for="ingrident">Ingrident + Strength + Dose Form</label>
+                <input formControlName="ingredient" (focus)="onIngredientKeydown('in')" (focusout)="onIngredientKeydown('out')" type="text" class="form-control" required>
 
-                <ul *ngIf="brandSuggest" class="input-sugestions">
-                    <li *ngFor="let brand of brands" (click)="brand_suggestion_click(brand)" class="input-sugestion">{{brand.STR}}</li>
+                <ul *ngIf="ingredientSuggest" class="input-sugestions">
+                    <li *ngIf="inLoading && ingredients.length === 0" class="input-sugestion">
+                        <div class="text-center">
+                            <i class="fa fa-spin fa-spinner"></i>
+                        </div>
+                    </li>
+                    <li *ngIf="!inLoading && ingredients.length === 0" class="input-sugestion">
+                        <div class="text-center">
+                            <span>{{ ingredientText }}</span>
+                        </div>
+                    </li>
+                    <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click(ingredient)" class="input-sugestion">{{ingredient.name}}</li>
                 </ul>
             </div>
         </div>
 
-        <div *ngIf="!productSuggest" class="enclosed-inputs">
-
-            <div class="frm-x2">
-                <div class="form-group">
-                    <label for="route">Route</label>
-                    <input formControlName="route" type="text" class="form-control" required>
+        <div class="frm-x2">
+            <div style="display: flex;" class="form-group">
+                <div class="img-box">
+                    <button (click)="showImageBrowseDlg()" class="btn btn-medium btn-blue" style="width: 100%; margin-bottom: 5px;">Upload Product Image</button>
                 </div>
-
-                <div class="form-group">
-                    <label for="manufacturer">Manufacturer</label>
-                    <input formControlName="manufacturer" type="text" class="form-control" required>
-                </div>
-            </div>
-
-            <div class="frm-x2">
-                <div class="form-group">
-                    <label for="ingrident">Ingrident + Strength + Dose Form</label>
-                    <input formControlName="ingrident" (keydown)="onKeydown()" type="text" class="form-control" required>
-
-                    <ul *ngIf="ingredientSuggest" class="input-sugestions">
-                        <li *ngFor="let ingredient of ingredients" (click)="ingreditent_suggestion_click()" class="input-sugestion">Abaloparatide Injection</li>
-                    </ul>
-
-                    <div class="div-tbl-wrap">
-                        <ul class="div-tbl-head">
-                            <li class="li-tbl-head-item">Ingredient</li>
-                            <li class="li-tbl-head-item">Strength</li>
-                        </ul>
-
-                        <ul class="ul-tbl-body">
-                            <li class="li-tbl-body-row">
-                                <div class="row-item">Phenol melancoly biometanoate divide slice like a knife yeah?</div>
-                                <div class="row-item">500mg</div>
-                            </li>
-                            <li class="li-tbl-body-row">
-                                <div class="row-item">Phenol</div>
-                                <div class="row-item">500mg</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="frequency">Regimen</label>
-                    <input formControlName="frequency" type="text" class="form-control" required>
-
-                    <div class="div-tbl-wrap">
-                        <ul class="div-tbl-head">
-                            <li class="li-tbl-head-item">Ingredient</li>
-                            <li class="li-tbl-head-item">Strength</li>
-                        </ul>
-
-                        <ul class="ul-tbl-body">
-                            <li class="li-tbl-body-row">
-                                <div class="row-item">Phenol</div>
-                                <div class="row-item">500mg</div>
-                            </li>
-                            <li class="li-tbl-body-row">
-                                <div class="row-item">Phenol</div>
-                                <div class="row-item">500mg</div>
-                            </li>
-                        </ul>
+                <div class="img-holder-box">
+                    <input style="display:none" accept="image/x-png,image/jpeg" #fileInput (change)="onChangeUpload();" type="file" class="form-control">
+                    <div style="padding-left: 20px;" class="placehold-wrap">
+                        <img style="height:50px; width: 50px;" #imageHolder class="image-holder" src="assets/images/default.png" />
                     </div>
                 </div>
             </div>
-            <!-- remember to add drug form label -->
+            <div class="form-group">
+                <div class="reg-outer" formArrayName="regimens">
+                    <div class="regimen-wrap" *ngFor="let regimen of frm_newProduct.controls['regimens']['controls']; let i=index;">
+                        <div class="input-grp" [formGroupName]="i">
+                            <div>
+                                <label>Frequency
+                                  <select formControlName="frequency">
+                                      <option *ngFor="let frequency of frequencies">{{ frequency.name }}</option>
+                                  </select>
+                                </label>
+                            </div>
+                            <div class="mid-sect">FOR</div>
+                            <div class="side-sect">
+                                <label>Duration
+                                <input placeholder="2" formControlName="duration" type="number" class="form-control" required>
+                              </label>
+                                <label>Unit
+                                  <select formControlName="unit">
+                                    <option *ngFor="let unit of durationUnits">{{ unit.name }}</option>
+                                  </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="x-btn" (click)="removeRegimen(i)"><i class="fa fa-times"></i></div>
+                    </div>
+                    <div class="plus-btn" (click)="addRegimen();">+</div>
+                </div>
+            </div>
         </div>
-    </form>
+        <!-- remember to add drug form label -->
+    </div>
+</form>
 
-    <button class="cta">Save Product</button>
-</div>
+<button class="cta" (click)="onClickSaveProduct(frm_newProduct.valid, frm_newProduct.value);" [disabled]="disableBtn || !frm_newProduct.valid">
+  <span *ngIf="saveProduct"><i class="fa fa-check"></i> Save Product</span>
+  <span *ngIf="savingProduct">Saving Product... <i class="fa fa-spin fa-spinner"></i></span>
+</button>

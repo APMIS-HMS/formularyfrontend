@@ -1,3 +1,48 @@
-<p>
-  list-products works!
-</p>
+
+  <div class="top-actions">
+    <div class="inputs-wrap">
+      <select class="srch-select" [formControl]="searchTypeInput">
+        <option selected>All</option>
+        <option>Branded Drug</option>
+        <option>Generic Drug</option>
+      </select>
+      <input class="srch-txt" type="search" placeholder="Search" [formControl]="searchInput">
+    </div>
+
+    <div class="top-btn-wrap">
+      <button (click)="create_prod()" class="cta"><i class="fa fa-plus"></i> Create Product</button>
+    </div>
+    
+  </div>
+
+  <div class="return-label">50 entries returned for
+    <span class="keyword">"parace"</span>
+  </div>
+  <ul class="return-lists">
+      <li class="return-list">
+          <div class="main-returned">Emzor Paracetamol</div>
+          <ul class="other-returned">
+              <li>
+                  <span class="val-label">Ingredent:</span>Panadol 100mg</li>
+              <li>Morphine 20mg</li>
+              <li>Quinin 50mg</li>
+          </ul>
+          <div class="other-returned">
+              <span class="val-label">Drug Form:</span>Oral Capsule</div>
+          <div class="other-returned">
+              <span class="val-label">Manufacturer:</span>Pizer Corporations LTD</div>
+      </li>
+      <li class="return-list">
+          <div class="main-returned">Emzor Paracetamol</div>
+          <ul class="other-returned">
+              <li>
+                  <span class="val-label">Ingredent:</span>Panadol 100mg</li>
+              <li>Morphine 20mg</li>
+              <li>Quinin 50mg</li>
+          </ul>
+          <div class="other-returned">
+              <span class="val-label">Drug Form:</span>Oral Capsule</div>
+          <div class="other-returned">
+              <span class="val-label">Manufacturer:</span>Pizer Corporations LTD</div>
+      </li>
+  </ul>

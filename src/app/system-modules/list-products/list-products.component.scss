@@ -1,0 +1,104 @@
+@import "../../../assets/libs/variables.scss";
+.pg-header {
+    background: $c1;
+    padding: 10px;
+}
+
+.inputs-wrap {
+    display: flex;
+}
+
+.srch-select {
+    width: 30%;
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+.cta{
+    width: auto !important; 
+    font-size: 1.4rem;
+}
+
+.srch-txt {
+    width: 70%;
+    font-size: 1.8rem;
+}
+
+.return-lists {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.return-list {
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 3px;
+}
+
+.return-list:hover {
+    background: #eee;
+}
+
+.return-label {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    font-size: 1.6rem;
+    color: #999;
+    border-bottom: 1px solid #bd0020;
+    /* text-align: right; */
+    padding-bottom: 5px;
+}
+
+span.keyword {
+    font-style: italic;
+    // text-decoration: underline;
+    color: $green-4;
+}
+
+.main-returned {
+    font-size: 2rem;
+    color: $link;
+    margin-bottom: 5px;
+}
+
+ul.other-returned {
+    display: flex;
+}
+
+ul.other-returned li {
+    margin-right: 20px;
+}
+
+.other-returned {
+    font-size: 1.4rem;
+}
+
+span.val-label {
+    color: $green-4;
+    padding-right: 10px;
+    font-style: italic;
+}
+.top-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 80%;
+    margin: 20px auto;
+}
+
+@media screen and (max-width: 700px) {
+    // .input-grp[_ngcontent-c3]
+    .top-actions{
+        flex-direction: column-reverse;
+    }
+    .top-btn-wrap{
+        width: 100%;
+        margin-bottom: 5px;
+        button{
+            float: right;
+        }
+    }
+    .inputs-wrap{
+        width: 100%; 
+    }
+}

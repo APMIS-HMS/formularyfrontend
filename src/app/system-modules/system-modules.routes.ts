@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { SystemModulesComponent } from './system-modules.component';
 import { ListProductsComponent } from './list-products/list-products.component';
-import { SearchProductComponent } from './search-product/search-product.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const SYSTEMMODULES_ROUTES: Routes = [
   {
@@ -14,16 +14,13 @@ const SYSTEMMODULES_ROUTES: Routes = [
         component: ListProductsComponent
       },
       {
-        path: 'search-product',
-        component: SearchProductComponent
-      },
-      {
         path: 'add-product',
         component: AddProductComponent
       },
       {
         path: '', redirectTo: 'products', pathMatch: 'full'
       },
+      { path: '**', component: PageNotFoundComponent }
     ]
   }
 ];
