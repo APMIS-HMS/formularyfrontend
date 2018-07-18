@@ -11,5 +11,7 @@ export class SystemModulesComponent implements OnInit {
 
   ngOnInit() {
   }
-
+home_onClick(){
+  
+}
 }
