@@ -282,7 +282,10 @@ export class AddProductComponent implements OnInit {
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       const that = this;
+      console.log('Reader => ', reader);
+      console.log(input);
       reader.onload = function (e: any) {
+        console.log(e);
         that._systemModuleService.off();
         that.imageHolder.nativeElement.src = e.target.result;
         that.frm_newProduct.controls['upload'].setValue(e.target.result);
@@ -290,6 +293,7 @@ export class AddProductComponent implements OnInit {
       };
 
       reader.readAsDataURL(input.files[0]);
+      console.log('Reader 2 => ', reader);
     }
   }
 
