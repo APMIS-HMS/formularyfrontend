@@ -16,6 +16,6 @@ export class BrandedProductService {
   }
 
   create(query: any) {
-    return this._socket.create(query);
+    return this._rest.create(query);
   }
 }
