@@ -16,6 +16,6 @@ export class BrandService {
   }
 
   find(query: any) {
-    return this._socket.find(query);
+    return this._rest.find(query);
   }
 }
