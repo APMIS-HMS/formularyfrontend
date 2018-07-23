@@ -14,7 +14,7 @@ export class ProductTypeService {
     this._rest = _restService.getService('product-types');
     this._socket = _socketService.getService('product-types');
     this._socket.on('created', function (product) {
-      console.log(product);
+      // console.log(product);
     });
   }
 
