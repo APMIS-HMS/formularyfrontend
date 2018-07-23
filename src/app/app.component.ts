@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   constructor(
     private _systemModuleService: SystemModuleService,
   ) {
+    console.log('Running');
     this.sweetAlertSubscription = this._systemModuleService.sweetAnnounced$.subscribe((value: any) => {
       this._sweetNotification(value);
     });
