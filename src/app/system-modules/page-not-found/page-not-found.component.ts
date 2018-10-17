@@ -19,5 +19,7 @@ export class PageNotFoundComponent implements OnInit {
   search_prod(){
     this._router.navigate(['modules/products']); 
   }
-
+  scd_page(){
+    this._router.navigate(['modules/scd-page']); 
+  }
 }

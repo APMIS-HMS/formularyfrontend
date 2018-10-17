@@ -1,0 +1,132 @@
+<div class="pg-title">SCD Page</div>
+<div class="top-actions">
+  <div>
+    <button (click)="sign_in()" class="cta"><i class="fa fa-arrow-left"></i> Back</button>
+  </div>
+</div>
+
+<form class="wrapper" novalidate [formGroup]="frm_newSCD">
+  <div>
+    <div class="form-group">
+      <label for="scd_search">Search SCD</label>
+      <input formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')" type="text" class="form-control"
+        required>
+      <ul *ngIf="scdSuggest" class="input-sugestions">
+        <li *ngIf="inLoading && SCDs.length === 0" class="input-sugestion">
+          <div class="text-center">
+            <i class="fa fa-spin fa-spinner"></i>
+          </div>
+        </li>
+        <li *ngIf="!inLoading && SCDs.length === 0" class="input-sugestion">
+          <div class="text-center">
+            <span>{{ scdText }}</span>
+          </div>
+        </li>
+        <li *ngFor="let scd of SCDs" (click)="scd_suggestion_click(scd)" class="input-sugestion">{{scd.name}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header wrapper-header">
+      <div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="Check1">
+          <label class="custom-control-label" for="Check1">Add Ingredient</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="Check2">
+          <label class="custom-control-label" for="Check2">Modify Ingredient</label>
+        </div>
+      </div>
+      <button>Create Ingredients</button>
+    </div>
+    <div class="wrapper-ingredient">
+      <div class="ingredient-layout control-group">
+        <i class="fa fa-plus-circle fa-3x plus-margin"></i>
+        <div class="form-group">
+          <label for="ingredient-name">Ingredient Name</label>
+          <input class="ingredient-name" type="text">
+        </div>
+        <div class="card inner-ingredient-card">
+          <i class="fa fa-plus txt-i">Add More</i>
+          <div class="ingredient-layout">
+            <div class="form-group">
+              <label for="strenght">Strenght</label>
+              <input type="text">
+            </div>
+            <div class="form-group">
+              <label>Units</label>
+              <div class="select">
+                <select>
+                  <option>ml</option>
+                  <option>l</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ingredient-layout control-group">
+        <i class="fa fa-times-circle fa-3x plus-margin" style="color:red"></i>
+        <div class="form-group">
+          <label for="ingredient-name">Ingredient Name</label>
+          <input class="ingredient-name" type="text">
+        </div>
+
+        <div class="wrapper-ingredient-inner">
+          <div class="card inner-ingredient-card">
+            <i class="fa fa-plus txt-i inner-frm">Add More</i>
+            <div class="ingredient-layout">
+              <div class="form-group">
+                <label for="strenght">Strenght</label>
+                <input type="text">
+              </div>
+              <div class="form-group">
+                <label>Units</label>
+                <div class="select">
+                  <select>
+                    <option>ml</option>
+                    <option>l</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card inner-ingredient-card">
+            <i class="fa fa-times txt-i inner-frm"  style="color:red">Close</i>
+            <div class="ingredient-layout">
+              <div class="form-group">
+                <label for="strenght">Strenght</label>
+                <input type="text">
+              </div>
+              <div class="form-group">
+                <label>Units</label>
+                <div class="select">
+                  <select>
+                    <option>ml</option>
+                    <option>l</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group ingredient-layout">
+      <label>Dose Form</label>
+      <select>
+        <option>**Unknown**</option>
+      </select>
+    </div>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="enableEdit">
+      <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
+    </div>
+    <p class="text-left">Diclofenac Sodium 70Mg</p>
+    <button class="cta"> Save</button>
+  </div>
+</form>
