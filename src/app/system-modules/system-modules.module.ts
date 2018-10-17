@@ -9,13 +9,17 @@ import {
   ProductService, ProductTypeService, RXNConsoService, IngredientService, ManufacturerService,
   FrequencyService, BrandedProductService } from '../services/index';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ScdComponent } from './scd/scd.component';
+import { AddScdComponent } from './scd/add-scd/add-scd.component';
 
 @NgModule({
   declarations: [
   SystemModulesComponent,
   ListProductsComponent,
   AddProductComponent,
-  PageNotFoundComponent
+  PageNotFoundComponent,
+  ScdComponent,
+  AddScdComponent
 ],
   exports: [
   ],
