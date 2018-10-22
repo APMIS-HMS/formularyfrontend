@@ -39,94 +39,70 @@
           <label class="custom-control-label" for="Check2">Modify Ingredient</label>
         </div>
       </div>
-      <button>Create Ingredients</button>
+      <button (click)="pushIngredient()">Create Ingredients</button>
     </div>
-    <div class="wrapper-ingredient">
-      <div class="ingredient-layout control-group">
-        <i class="fa fa-plus-circle fa-3x plus-margin"></i>
-        <div class="form-group">
-          <label for="ingredient-name">Ingredient Name</label>
-          <input class="ingredient-name" type="text">
-        </div>
-        <div class="card inner-ingredient-card">
-          <i class="fa fa-plus txt-i">Add More</i>
-          <div class="ingredient-layout">
-            <div class="form-group">
-              <label for="strenght">Strenght</label>
-              <input type="text">
-            </div>
-            <div class="form-group">
-              <label>Units</label>
-              <div class="select">
-                <select>
-                  <option>ml</option>
-                  <option>l</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ingredient-layout control-group">
-        <i class="fa fa-times-circle fa-3x plus-margin" style="color:red"></i>
-        <div class="form-group">
-          <label for="ingredient-name">Ingredient Name</label>
-          <input class="ingredient-name" type="text">
-        </div>
 
-        <div class="wrapper-ingredient-inner">
-          <div class="card inner-ingredient-card">
-            <i class="fa fa-plus txt-i inner-frm">Add More</i>
-            <div class="ingredient-layout">
-              <div class="form-group">
-                <label for="strenght">Strenght</label>
-                <input type="text">
-              </div>
-              <div class="form-group">
-                <label>Units</label>
-                <div class="select">
-                  <select>
-                    <option>ml</option>
-                    <option>l</option>
-                  </select>
+    <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="ingredients">
+        <div *ngFor="let ingredient of ingredientForm.controls['ingredients'].controls; let i = index;">
+          <div formGroupName="{{i}}">
+            <div class="wrapper-ingredient">
+              <div class="ingredient-layout control-group">
+                <i class="fa fa-times-circle fa-3x plus-margin" style="color:red"></i>
+                <button (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">Add Strength</button>
+                <div class="form-group">
+                  <label for="ingredient-name">Ingredient Name</label>
+                  <input formControlName="ingName" class="ingredient-name" type="text">
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="card inner-ingredient-card">
-            <i class="fa fa-times txt-i inner-frm"  style="color:red">Close</i>
-            <div class="ingredient-layout">
-              <div class="form-group">
-                <label for="strenght">Strenght</label>
-                <input type="text">
-              </div>
-              <div class="form-group">
-                <label>Units</label>
-                <div class="select">
-                  <select>
-                    <option>ml</option>
-                    <option>l</option>
-                  </select>
+                <div class="wrapper-ingredient-inner" formArrayName="strengths">
+                  <div class="card inner-ingredient-card" [formGroupName]="j" *ngFor="let strenght of getStrengths(ingredient); let j = index">
+
+                    <button (click)="pushStrength(i)">Add More</button>
+                    <button (click)="removeStrength(i, j)">Remove</button>
+                    <!-- <i class="fa fa-plus txt-i inner-frm">Add More</i> -->
+                    <!-- <i class="fa fa-times txt-i inner-frm" style="color:red">Close</i> -->
+                    <div class="ingredient-layout">
+                      <div class="form-group">
+                        <label for="strenght">Strenght</label>
+                        <input formControlName="numStrength" type="text">
+                      </div>
+                      <div class="form-group">
+                        <label>Units</label>
+                        <div class="select">
+                          <select>
+                            <option>ml</option>
+                            <option>l</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="form-group ingredient-layout">
-      <label>Dose Form</label>
-      <select>
-        <option>**Unknown**</option>
-      </select>
-    </div>
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="enableEdit">
-      <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
-    </div>
-    <p class="text-left">Diclofenac Sodium 70Mg</p>
-    <button class="cta"> Save</button>
+
+        <div *ngIf="hasIngredient">
+          <div class="form-group ingredient-layout">
+            <label>Dose Form</label>
+            <select>
+              <option *ngFor="let item of doseForms" value="{{item.STR}}">{{item.STR}}</option>
+            </select>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="enableEdit">
+            <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
+          </div>
+          <p class="text-left">Diclofenac Sodium 70Mg</p>
+          <button class="cta"> Save</button>
+        </div>
+      </div>
+    </form>
   </div>
 </form>
