@@ -55,23 +55,34 @@
           <div formGroupName="{{i}}">
             <div class="wrapper-ingredient">
               <div class="ingredient-layout control-group">
-                <div class=" plus-margin" style="cursor: pointer;">
-                  <i class="fa fa-times-circle fa-3x" style="color:red"></i>
-                </div>
-
-                <div class="strenght-wrap">
-                  <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <span>Add Strength</span>
+                
+                <div style="padding:5px; float: right;">
+                  <div class="inner-frm">
+                    <i class="fa fa-times" style="color:red" aria-hidden="true"></i>
+                    <span style="padding:3px;">Remove</span>
                   </div>
+                  <div class="inner-frm">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <span style="padding:3px;">Add More</span>
+                  </div>
+                  <!--  <button (click)="removeStrength(i, j)">Remove</button> -->
+                  <!-- <i class="fa fa-plus txt-i inner-frm">Add More</i> -->
+                  <!-- <i class="fa fa-times txt-i inner-frm" style="color:red">Close</i> -->
                 </div>
+                <!--   <div class=" plus-margin" style="cursor: pointer;">
+                  <i class="fa fa-times-circle fa-3x" style="color:red"></i>
+                </div> -->
+
 
                 <!-- <button (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">Add Strength</button> -->
                 <div class="form-group">
                   <label for="ingredient-name">Ingredient Name</label>
                   <input formControlName="ingName" class="ingredient-name" type="text">
                 </div>
-
+                <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <span>Add Strength</span>
+                  </div>
                 <div class="wrapper-ingredient-inner" formArrayName="strengths">
                   <div class="card inner-ingredient-card" [formGroupName]="j" *ngFor="let strenght of getStrengths(ingredient); let j = index">
                     <div style="padding:5px; float: right;">
@@ -127,7 +138,7 @@
             <input type="checkbox" class="custom-control-input" id="enableEdit">
             <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
           </div>
-          <p class="text-left">Diclofenac Sodium 70Mg</p>
+          <p class="text-left">Diclofenac Sodium 50Mg Oral Suspension</p>
           <button class="cta"> Save</button>
         </div>
       </div>

@@ -8,11 +8,13 @@
     padding-right: 5em;
 }
 
-/* .wrapper-header{
-    display: grid;
+ .wrapper-header{
+ /*    display: grid;
     grid-template-columns: auto auto;
-    grid-column-gap: 1em;
-} */
+    grid-column-gap: 1em; */
+    display: flex;
+    box-sizing: border-box;
+} 
 
 
 
@@ -127,6 +129,7 @@ p{
     float: right;
     border-color: gray;
     align-items: baseline;
+    left: 55%;
 }
 
 .strenght-wrap{
@@ -146,7 +149,7 @@ p{
     float: right;
     align-self: flex-end;
     height: auto;
-    width: 67px;
+    width: auto;
     cursor: pointer;
     padding-right: 5px;
 }
