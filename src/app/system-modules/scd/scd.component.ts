@@ -1,3 +1,5 @@
+import { DoseForm } from './../interfaces/scd';
+import { getDoseForms } from './../state/system.reducer';
 import { StrengthUnitsService } from './../../services/strength-units.service';
 import { DoseFormsService } from './../../services/dose-forms.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -6,6 +8,10 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { IngredientService } from '../../services/index';
 import { tryParse } from 'selenium-webdriver/http';
+import { Store, select } from '@ngrx/store';
+import * as fromSystem from '../state/system.reducer';
+import * as systemActions from '../state/system.action';
+import { SCD } from '../interfaces/scd';
 
 @Component({
 	selector: 'app-scd',
@@ -15,11 +21,12 @@ import { tryParse } from 'selenium-webdriver/http';
 export class ScdComponent implements OnInit {
 	@Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+	showEditIngredientName = false;
 	suggest = false;
 	scdSuggest = false;
 	isSelected = false;
 	selectedSCD: any;
-	SCDs: any[] = [];
+	SCDList: any[] = [];
 	inLoading = true;
 	hasIngredient = false;
 	scdText = 'Character must be greater than 3';
@@ -30,12 +37,21 @@ export class ScdComponent implements OnInit {
 	nameLabel = '';
 	ingredient: any;
 	strengthNumericIndex = 0;
+
+	actions = [
+		{ id: 1, description: 'Modify Ingredient' },
+		{ id: 2, description: 'Add Ingredient' },
+		{ id: 3, description: 'Create Ingredient' }
+	];
+
+	selectedAction = null;
 	constructor(
 		private formBuilder: FormBuilder,
 		private _ingredientService: IngredientService,
 		private _doseFormService: DoseFormsService,
 		private _strengthUnitService: StrengthUnitsService,
-		private _router: Router
+		private _router: Router,
+		private _store: Store<fromSystem.State>
 	) {}
 
 	public frm_newSCD: FormGroup;
@@ -50,7 +66,7 @@ export class ScdComponent implements OnInit {
 		this.frm_newSCD.controls['scd'].valueChanges
 			.pipe(
 				tap((val) => {
-					this.SCDs = [];
+					// this.SCDList = [];
 					this.inLoading = true;
 				}),
 				debounceTime(400),
@@ -63,24 +79,44 @@ export class ScdComponent implements OnInit {
 						this.isSelected = false;
 						if (res.status === 'success' && res.data.length > 0) {
 							this.scdSuggest = true;
-							this.SCDs = res.data;
+							this.SCDList = res.data;
 						} else {
 							this.scdText = 'Search is empty';
-							this.SCDs = [];
+							this.SCDList = [];
 						}
 					});
 				} else {
 					this.isSelected = false;
 				}
 			});
-		this.getDoseForms();
+		// this.getDoseForms();
+		this._store.dispatch(new systemActions.LoadDoseForm());
 		this.getStrengthUnits();
+		this.selectedAction = this.actions[0];
+
+		this._store
+			.pipe(select(fromSystem.getEnableIngredientNameEdit))
+			.subscribe((enableIngredientNameEdit) => (this.showEditIngredientName = enableIngredientNameEdit));
+
+		this._store
+			.pipe(select(fromSystem.getSelectedSCD))
+			.subscribe((selectedSCD) => this.performActionBaseOnSelectedSCD(selectedSCD));
+
+		this._store
+			.pipe(select(fromSystem.getDoseForms))
+			.subscribe((doseForms: DoseForm[]) => (this.doseForms = doseForms));
 	}
 
-	getDoseForms() {
-		this._doseFormService.find({}).then((payload) => {
-			this.doseForms = payload.data;
-		});
+	// getDoseForms() {
+	// 	this._doseFormService.find({}).then((payload) => {
+	// 		this.doseForms = payload.data;
+	// 	});
+	// }
+
+	onSelectionChange(element) {
+		this.selectedAction = element;
+		const control = <FormArray>this.ingredientForm.get('ingredients');
+		control.controls.forEach((x, i) => this.removeIngredient(i));
 	}
 
 	getStrengthUnits() {
@@ -97,7 +133,7 @@ export class ScdComponent implements OnInit {
 					strengths: new FormArray([ this.initStrength() ])
 				})
 			]),
-			doseForm: new FormControl('')
+			doseForm: new FormControl()
 		});
 	}
 	setIngredientComponentIndexes(name) {
@@ -128,13 +164,16 @@ export class ScdComponent implements OnInit {
 	removeIngredient(i) {
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.removeAt(i);
+		if (control.length === 0) {
+			this.hasIngredient = false;
+		}
 	}
 
 	pushIngredient(ingredient?) {
-		console.log('click');
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.push(this.initIngredient(ingredient));
 		this.subscribToFormControls();
+		this.hasIngredient = true;
 	}
 
 	subscribToFormControls() {
@@ -177,15 +216,20 @@ export class ScdComponent implements OnInit {
 			}, 300);
 		}
 	}
+	performActionBaseOnSelectedSCD(selectedSCD: SCD) {
+		if (selectedSCD !== null) {
+			this.scdSuggest = false;
+			this.isSelected = true;
+			this.selectedSCD = selectedSCD;
+			const control = <FormArray>this.ingredientForm.get('ingredients');
+			control.controls.forEach((x, i) => this.removeIngredient(i));
+			this.search_ingredient(this.selectedSCD.code, this.selectedSCD.id);
+			this.frm_newSCD.controls['scd'].setValue(selectedSCD.name);
+		}
+	}
 
-	scd_suggestion_click(value) {
-		this.scdSuggest = false;
-		this.isSelected = true;
-		this.selectedSCD = value;
-		// this.frm_newSCD.controls['ingredient'].setValue(value.name);
-		const control = <FormArray>this.ingredientForm.get('ingredients');
-		control.controls.forEach((x, i) => this.removeIngredient(i));
-		this.search_ingredient(this.selectedSCD.code, this.selectedSCD.id);
+	scd_suggestion_click(value: SCD) {
+		this._store.dispatch(new systemActions.SetSelectedSCD(value));
 	}
 
 	getName(ingredient) {
@@ -201,37 +245,52 @@ export class ScdComponent implements OnInit {
 			});
 			ingredient.dose_form.forEach((d) => {
 				this.nameLabel = this.nameLabel + ' ' + d.name;
+				console.log(1);
 			});
 		} else {
 			ingredient.ingredients.forEach((x, i) => {
-				console.log(x);
 				this.nameLabel = this.nameLabel + ' ' + x.ingName;
-				x.strengths.forEach((s) => {
+				x.strengths.forEach((s, j) => {
 					if (s.numStrength) {
-						this.nameLabel = this.nameLabel + ' ' + s.numStrength;
-						this.nameLabel = this.nameLabel + ' ' + s.strengthUnit;
+						if (j === 0) {
+							this.nameLabel = this.nameLabel + ' ' + s.numStrength;
+							this.nameLabel = this.nameLabel + ' ' + s.strengthUnit;
+						} else {
+							this.nameLabel = this.nameLabel + '' + s.numStrength;
+							this.nameLabel = this.nameLabel + ' ' + s.strengthUnit;
+						}
+					}
+					if (j < x.strengths.length - 1) {
+						this.nameLabel = this.nameLabel + '/';
 					}
 				});
 				if (i < ingredient.ingredients.length - 1) {
 					this.nameLabel = this.nameLabel + ' /';
 				}
 			});
-			this.ingredient.dose_form.forEach((d) => {
-				this.nameLabel = this.nameLabel + ' ' + d.name;
-			});
+			if (this.ingredient !== undefined) {
+				if (ingredient.doseForm !== undefined) {
+					this.nameLabel = this.nameLabel + ' ' + ingredient.doseForm.name;
+					console.log(3);
+				} else {
+					this.ingredient.dose_form.forEach((d) => {
+						this.nameLabel = this.nameLabel + ' ' + d.name;
+						console.log(2);
+					});
+				}
+			}
 		}
 	}
 	search_ingredient(code, id) {
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.controls.forEach((x, i) => this.removeIngredient(i));
 		this._ingredientService.get(code, { query: { id: id } }).then((ingredients) => {
-			// this.getName(ingredients.data);
 			this.ingredient = ingredients.data;
 			ingredients.data.ingredient_strengths.forEach((ingredient_strength) => {
 				this.pushIngredient(ingredient_strength);
 			});
 			const formContrl = <FormControl>this.ingredientForm.get('doseForm');
-			formContrl.setValue(ingredients.data.dose_form.length === 0 ? '' : ingredients.data.dose_form[0].name);
+			formContrl.setValue(ingredients.data.dose_form.length === 0 ? '' : ingredients.data.dose_form[0]);
 			this.hasIngredient = true;
 		});
 	}
@@ -244,6 +303,15 @@ export class ScdComponent implements OnInit {
 		this._router.navigate([ '**' ]);
 	}
 	onSubmit() {
-		console.log(this.ingredientForm.value);
+		console.log(this.ingredientForm);
+		console.log(this.ingredientForm.value.doseForm);
+	}
+
+	checkChanged(checked) {
+		this._store.dispatch(new systemActions.ToggleEnableIngredientNameEdit(checked));
+	}
+
+	compareFn(optionOne, optionTwo): boolean {
+		return optionOne.name === optionTwo.name;
 	}
 }
