@@ -11,6 +11,7 @@ import { BrandService, SystemModuleService, UserService } from './services';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { ScdService } from './services/scd.service';
 
 @NgModule({
 	declarations: [ AppComponent ],
@@ -34,7 +35,8 @@ import { EffectsModule } from '@ngrx/effects';
 		SystemModuleService,
 		UserService,
 		DoseFormsService,
-		StrengthUnitsService
+		StrengthUnitsService,
+		ScdService
 	],
 	bootstrap: [ AppComponent ]
 })
