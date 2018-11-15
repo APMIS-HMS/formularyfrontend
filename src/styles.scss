@@ -134,17 +134,21 @@ textarea {
     top: 105%;
     width: 100%;
     min-height: 50px;
-    max-height: 280px;
+    max-height: 500px;
     background: #fff;
     border: 1px solid #eee;
     z-index: 2;
+    overflow: auto;
 }
 
 .input-sugestion {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    cursor: pointer;
+    cursor: pointer;    
+    min-height: 50px;
+    max-height: 500px;
+    overflow: auto;
 }
 
 .input-sugestion:hover {

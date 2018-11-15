@@ -1,0 +1,154 @@
+<div class="pg-title">SCD Page</div>
+<div class="top-actions">
+  <div>
+    <button (click)="sign_in()" class="cta"><i class="fa fa-arrow-left"></i> Back</button>
+  </div>
+</div>
+
+<form class="wrapper" novalidate [formGroup]="frm_newSCD">
+  <div>
+    <div class="form-group">
+      <label for="scd_search">Search SCD</label>
+      <input formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')" type="text" class="form-control"
+        required>
+      <ul *ngIf="scdSuggest" class="input-sugestions">
+        <li *ngIf="inLoading && SCDList.length === 0" class="input-sugestion">
+          <div class="text-center">
+            <i class="fa fa-spin fa-spinner"></i>
+          </div>
+        </li>
+        <li *ngIf="!inLoading && SCDList.length === 0" class="input-sugestion">
+          <div class="text-center">
+            <span>{{ scdText }}</span>
+          </div>
+        </li>
+        <li *ngFor="let scd of SCDList" (click)="scd_suggestion_click(scd)" class="input-sugestion">{{scd.name}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header wrapper-header">
+      <div style="padding-left: 15px;">
+        <div class="form-check-inline">
+          <label class="form-check-label" *ngFor="let action of actions; let idx = index">
+            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input" [checked]="selectedAction.id===action.id"
+              [value]="action.id" name="optradio">{{action.description}}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="selectedAction?.id === 3" (click)="pushIngredient()" class="act-wrap">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <span>Create Ingredients</span>
+      </div>
+    </div>
+
+    <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="ingredients">
+        <div *ngFor="let ingredient of ingredientForm.controls['ingredients'].controls; let i = index;">
+          <div formGroupName="{{i}}">
+            <div class="wrapper-ingredient">
+              <div class="ingredient-layout control-group">
+
+
+                <div class="container">
+                  <div class="row justify-content-end" *ngIf="selectedAction.id===2 || selectedAction.id === 3">
+                    <div class="col-auto align-self-end" (click)="pushIngredient()">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      <span style="padding:3px; cursor: pointer;">Add More</span>
+                    </div>
+
+                    <div class="col-auto align-self-end" (click)="removeIngredient()">
+                      <i class="fa fa-times" style="color:red" aria-hidden="true"></i>
+                      <span style="padding:3px; cursor: pointer;">Remove</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="selectedAction.id===2 || selectedAction.id === 3">
+                  <div class="form-group">
+                    <label for="scd_search">Search Precise Ingredient</label>
+                    <input type="text" class="form-control" style="min-width: 600px;">
+                    <ul class="input-sugestions">
+                      <li class="input-sugestion">
+                        <div class="text-center">
+                          <i class="fa fa-spin fa-spinner"></i>
+                        </div>
+                      </li>
+                      <li class="input-sugestion">
+                        <div class="text-center">
+                          <span>Search Result Here</span>
+                        </div>
+                      </li>
+                      <li class="input-sugestion">Selected Search Here</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="ingredient-name">Ingredient Name</label>
+                  <input formControlName="ingName" class="ingredient-name" style="min-width: 600px;" type="text">
+                </div>
+                <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <span style="cursor:pointer;">Add Strength</span>
+                </div>
+                <div class="wrapper-ingredient-inner" formArrayName="strengths">
+                  <div class="card inner-ingredient-card" [formGroupName]="j" *ngFor="let strenght of getStrengths(ingredient); let j = index">
+                    <div style="padding:5px; float: right;">
+                      <div (click)="removeStrength(i, j)" class="inner-frm">
+                        <i class="fa fa-times" style="color:red" aria-hidden="true"></i>
+                        <span style="padding:3px;">Remove</span>
+                      </div>
+                      <div (click)="pushStrength(i)" class="inner-frm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span style="padding:3px;">Add More</span>
+                      </div>
+                    </div>
+
+                    <div class="ingredient-layout">
+                      <div class="form-group">
+                        <label for="strenght">Strenght</label>
+                        <input formControlName="numStrength" type="text">
+
+                      </div>
+                      <div class="form-group">
+                        <label>Units</label>
+                        <div class="select">
+                          <select formControlName="strengthUnit">
+                            <option *ngFor="let item of strengthUnits" value="{{item.name}}">{{item.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="hasIngredient">
+        <div class="form-group ingredient-layout">
+          <label>Dose Form</label>
+          <select formControlName="doseForm" [compareWith]="compareFn">
+            <option *ngFor="let item of doseForms" [ngValue]="item">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" [checked]="showEditIngredientName" (change)="checkChanged($event.target.checked)"
+            class="custom-control-input" id="enableEdit">
+          <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
+        </div>
+        <p *ngIf="!showEditIngredientName" class="text-left">{{nameLabel}}</p>
+        <button class="cta" type="submit"> Save</button>
+      </div>
+
+
+    </form>
+  </div>
+</form>

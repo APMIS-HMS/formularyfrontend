@@ -1,0 +1,156 @@
+@import "./../add-product/add-product.component.scss";
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 25% auto;
+  grid-column-gap: 1em;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+.wrapper-header {
+  /*    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 1em; */
+  display: flex;
+  box-sizing: border-box;
+}
+
+
+
+.wrapper-ingredient {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-column-gap: 1em;
+}
+
+.wrapper-ingredient-inner {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 1em;
+}
+
+.inner-ingredient-card {
+  max-width: 400px;
+}
+
+.ingredient-layout {
+  padding: 15px;
+  max-width: auto;
+}
+
+.plus-margin {
+  /* margin-left: 220px; */
+  position: relative;
+  float: right;
+}
+
+.control-group {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: auto;
+  height: auto;
+  margin: 10px;
+}
+
+.text-left {
+  align-self: center;
+}
+
+.select {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+  background: lightgrey;
+  color: darkgrey;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+h1 {
+  align-self: center;
+}
+
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+
+
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: #e6e6e6;
+}
+
+
+.txt-i {
+  padding: 1em;
+  margin-left: 160px;
+}
+
+p {
+  font-size: xx-large;
+  align-self: center;
+}
+
+.custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 5.5rem !important;
+}
+
+.act-wrap {
+  width: 150px;
+  position: relative;
+  padding: 5px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #000;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  cursor: pointer;
+  border: 1px solid transparent;
+  float: right;
+  border-color: gray;
+  align-items: baseline;
+  left: 50%;
+}
+
+.strenght-wrap {
+  margin-right: 100px;
+  font-size: 1.2rem;
+  color: #000;
+  float: right;
+  align-items: baseline;
+}
+
+.ingredient-name {
+  max-width: 1000px;
+}
+
+.inner-frm {
+  position: relative;
+  float: right;
+  align-self: flex-end;
+  height: auto;
+  width: auto;
+  cursor: pointer;
+  padding-right: 5px;
+}
