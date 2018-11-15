@@ -50,9 +50,9 @@
             <div class="wrapper-ingredient">
               <div class="ingredient-layout control-group">
 
+
                 <div class="container">
                   <div class="row justify-content-end" *ngIf="selectedAction.id===2 || selectedAction.id === 3">
-
                     <div class="col-auto align-self-end" (click)="pushIngredient()">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                       <span style="padding:3px; cursor: pointer;">Add More</span>
@@ -62,13 +62,32 @@
                       <i class="fa fa-times" style="color:red" aria-hidden="true"></i>
                       <span style="padding:3px; cursor: pointer;">Remove</span>
                     </div>
+                  </div>
+                </div>
 
+                <div *ngIf="selectedAction.id===2 || selectedAction.id === 3">
+                  <div class="form-group">
+                    <label for="scd_search">Search Precise Ingredient</label>
+                    <input type="text" class="form-control" style="min-width: 600px;">
+                    <ul class="input-sugestions">
+                      <li class="input-sugestion">
+                        <div class="text-center">
+                          <i class="fa fa-spin fa-spinner"></i>
+                        </div>
+                      </li>
+                      <li class="input-sugestion">
+                        <div class="text-center">
+                          <span>Search Result Here</span>
+                        </div>
+                      </li>
+                      <li class="input-sugestion">Selected Search Here</li>
+                    </ul>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="ingredient-name">Ingredient Name</label>
-                  <input formControlName="ingName" class="ingredient-name" type="text">
+                  <input formControlName="ingName" class="ingredient-name" style="min-width: 600px;" type="text">
                 </div>
                 <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
                   <i class="fa fa-plus" aria-hidden="true"></i>
