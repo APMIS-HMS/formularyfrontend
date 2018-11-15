@@ -133,7 +133,8 @@ export class ScdComponent implements OnInit {
 				this.formBuilder.group({
 					ingName: [ '', [ <any>Validators.required ] ],
 					strengths: new FormArray([ this.initStrength() ]),
-					id: [ '' ]
+					id: [ '' ],
+					code: [ '' ]
 				})
 			]),
 			doseForm: new FormControl()
@@ -161,7 +162,8 @@ export class ScdComponent implements OnInit {
 					: ingredient.name.split(' ').filter((x, i) => i < this.strengthNumericIndex).join(' ')
 			),
 			strengths: new FormArray([ this.initStrength(ingredient === undefined ? '' : ingredient) ]),
-			id: new FormControl(ingredient.id === undefined ? '' : ingredient.id)
+			id: new FormControl(ingredient === undefined || ingredient.id === undefined ? '' : ingredient.id),
+			code: new FormControl(ingredient === undefined || ingredient.code === undefined ? '' : ingredient.code)
 		});
 	}
 
@@ -189,15 +191,18 @@ export class ScdComponent implements OnInit {
 	}
 
 	initStrength(strength?) {
-		console.log(strength);
 		return new FormGroup({
 			numStrength: new FormControl(
-				strength === undefined ? '' : strength.name.split(' ')[this.strengthNumericIndex]
+				strength === undefined || strength.name === undefined
+					? ''
+					: strength.name.split(' ')[this.strengthNumericIndex]
 			),
 			strengthUnit: new FormControl(
-				strength === undefined ? '' : strength.name.split(' ')[this.strengthNumericIndex + 1]
+				strength === undefined || strength.name === undefined
+					? ''
+					: strength.name.split(' ')[this.strengthNumericIndex + 1]
 			),
-			id: new FormControl(strength === undefined ? '' : strength.id)
+			id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
 		});
 	}
 
@@ -253,7 +258,6 @@ export class ScdComponent implements OnInit {
 			});
 			ingredient.dose_form.forEach((d) => {
 				this.nameLabel = this.nameLabel + ' ' + d.name;
-				console.log(1);
 			});
 		} else {
 			ingredient.ingredients.forEach((x, i) => {
@@ -277,25 +281,22 @@ export class ScdComponent implements OnInit {
 				}
 			});
 			if (this.ingredient !== undefined) {
-				if (ingredient.doseForm !== undefined) {
+				if (ingredient.doseForm !== undefined && ingredient.doseForm !== null) {
 					this.nameLabel = this.nameLabel + ' ' + ingredient.doseForm.name;
-					console.log(3);
 				} else {
 					this.ingredient.dose_form.forEach((d) => {
 						this.nameLabel = this.nameLabel + ' ' + d.name;
-						console.log(2);
 					});
 				}
 			}
 		}
 	}
 	search_ingredient(code, id) {
+		console.log(this.selectedSCD);
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.controls.forEach((x, i) => this.removeIngredient(i));
-		this._ingredientService.get(code, { query: { id: id } }).then((ingredients) => {
-			console.log(ingredients);
+		this._ingredientService.get(code, { query: { id: id, sab: this.selectedSCD.sab } }).then((ingredients) => {
 			this.ingredient = ingredients.data;
-			console.log(this.ingredient);
 			ingredients.data.ingredient_strengths.forEach((ingredient_strength) => {
 				this.pushIngredient(ingredient_strength);
 			});
@@ -313,8 +314,6 @@ export class ScdComponent implements OnInit {
 		this._router.navigate([ '**' ]);
 	}
 	onSubmit() {
-		console.log(this.selectedSCD);
-		console.log(this.ingredientForm.value);
 		const payload = {
 			id: this.selectedSCD.id,
 			ingredients: this.ingredientForm.value
@@ -334,6 +333,10 @@ export class ScdComponent implements OnInit {
 	}
 
 	compareFn(optionOne, optionTwo): boolean {
-		return optionOne.name === optionTwo.name;
+		if (optionOne !== null && optionTwo !== null) {
+			return optionOne.name === optionTwo.name;
+		} else {
+			return false;
+		}
 	}
 }

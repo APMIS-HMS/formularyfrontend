@@ -21,6 +21,8 @@ export class IngredientService {
 		return this._socket.find();
 	}
 	get(id: string, query: any) {
+		console.log(id);
+		console.log(query);
 		return this._socket.get(id, query);
 	}
 
