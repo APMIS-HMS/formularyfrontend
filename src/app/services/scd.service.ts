@@ -23,8 +23,8 @@ export class ScdService {
 		return this._socket.get(id, query);
 	}
 
-	create(product: any) {
-		return this._socket.create(product);
+	create(product: any, query) {
+		return this._socket.create(product, query);
 	}
 
 	remove(id: string, query: any) {

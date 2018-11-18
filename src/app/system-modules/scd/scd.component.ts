@@ -25,12 +25,17 @@ export class ScdComponent implements OnInit {
 	showEditIngredientName = false;
 	suggest = false;
 	scdSuggest = false;
+	inSuggest = false;
 	isSelected = false;
+	isIngredientSelected = false;
 	selectedSCD: any;
 	SCDList: any[] = [];
+	// inList: any[] = [];
 	inLoading = true;
+	ingredientLoading = true;
 	hasIngredient = false;
 	scdText = 'Character must be greater than 3';
+	inText = 'Character must be greater than 3';
 	ingredientForm: FormGroup;
 	doseForms: any;
 	strengthUnits: any;
@@ -38,7 +43,7 @@ export class ScdComponent implements OnInit {
 	nameLabel = '';
 	ingredient: any;
 	strengthNumericIndex = 0;
-
+	activeIngredientIndex = -1;
 	actions = [
 		{ id: 1, description: 'Modify Ingredient' },
 		{ id: 2, description: 'Add Ingredient' },
@@ -115,10 +120,16 @@ export class ScdComponent implements OnInit {
 	// 	});
 	// }
 
+	clearFormArray = (formArray: FormArray) => {
+		while (formArray.length !== 0) {
+			formArray.removeAt(0);
+		}
+	};
+
 	onSelectionChange(element) {
 		this.selectedAction = element;
 		const control = <FormArray>this.ingredientForm.get('ingredients');
-		control.controls.forEach((x, i) => this.removeIngredient(i));
+		this.clearFormArray(control);
 	}
 
 	getStrengthUnits() {
@@ -134,11 +145,13 @@ export class ScdComponent implements OnInit {
 					ingName: [ '', [ <any>Validators.required ] ],
 					strengths: new FormArray([ this.initStrength() ]),
 					id: [ '' ],
-					code: [ '' ]
+					code: [ '' ],
+					inName: [ '', [ <any>Validators.required ] ]
 				})
 			]),
 			doseForm: new FormControl()
 		});
+		this.subscribToFormControls();
 	}
 	setIngredientComponentIndexes(name) {
 		const nameLists = name.split(' ');
@@ -163,7 +176,10 @@ export class ScdComponent implements OnInit {
 			),
 			strengths: new FormArray([ this.initStrength(ingredient === undefined ? '' : ingredient) ]),
 			id: new FormControl(ingredient === undefined || ingredient.id === undefined ? '' : ingredient.id),
-			code: new FormControl(ingredient === undefined || ingredient.code === undefined ? '' : ingredient.code)
+			code: new FormControl(ingredient === undefined || ingredient.code === undefined ? '' : ingredient.code),
+			inName: new FormControl(''),
+			inList: new FormControl([]),
+			existing: new FormControl(ingredient === undefined || ingredient.id === undefined ? false : true)
 		});
 	}
 
@@ -177,6 +193,7 @@ export class ScdComponent implements OnInit {
 
 	pushIngredient(ingredient?) {
 		const control = <FormArray>this.ingredientForm.get('ingredients');
+
 		control.push(this.initIngredient(ingredient));
 		this.subscribToFormControls();
 		this.hasIngredient = true;
@@ -187,6 +204,43 @@ export class ScdComponent implements OnInit {
 			if (value !== undefined) {
 				this.getName(value);
 			}
+		});
+		const formArray = (<FormArray>this.ingredientForm.get('ingredients')).controls;
+		formArray.forEach((frmArray, i) => {
+			(<FormGroup>frmArray).controls['inName'].valueChanges
+				.pipe(
+					tap((val) => {
+						this.ingredientLoading = true;
+					}),
+					debounceTime(400),
+					distinctUntilChanged()
+				)
+				.subscribe((value) => {
+					if (
+						!!value &&
+						value.length >= 3 &&
+						this.isIngredientSelected === false &&
+						this.activeIngredientIndex > -1
+					) {
+						this._ingredientService
+							.find({ query: { search: value, search_ingredient: true, $limit: 100 } })
+							.then((res) => {
+								this.ingredientLoading = false;
+								this.isIngredientSelected = false;
+								if (res.status === 'success' && res.data.length > 0) {
+									this.inSuggest = true;
+									// this.inList = res.data;
+									(<FormGroup>frmArray).controls['inList'].setValue(res.data);
+								} else {
+									this.inText = 'Search is empty';
+									// this.inList = [];
+									(<FormGroup>frmArray).controls['inList'].setValue([]);
+								}
+							});
+					} else {
+						this.isIngredientSelected = false;
+					}
+				});
 		});
 	}
 
@@ -229,6 +283,20 @@ export class ScdComponent implements OnInit {
 			}, 300);
 		}
 	}
+
+	onINKeydown(focus, i) {
+		this.activeIngredientIndex = i;
+		if (focus === 'in') {
+			this.ingredientLoading = false;
+			this.inSuggest = true;
+		} else {
+			setTimeout(() => {
+				this.inSuggest = false;
+				this.activeIngredientIndex = -1;
+			}, 300);
+		}
+	}
+
 	performActionBaseOnSelectedSCD(selectedSCD: SCD) {
 		if (selectedSCD !== null) {
 			this.scdSuggest = false;
@@ -243,6 +311,14 @@ export class ScdComponent implements OnInit {
 
 	scd_suggestion_click(value: SCD) {
 		this._store.dispatch(new systemActions.SetSelectedSCD(value));
+	}
+
+	in_suggestion_click(value: any, ingredient: any) {
+		this.isIngredientSelected = true;
+		(<FormControl>ingredient.controls['inName']).setValue(value.name);
+		(<FormControl>ingredient.controls['ingName']).setValue(value.name);
+		(<FormControl>ingredient.controls['code']).setValue(value.code);
+		(<FormControl>ingredient.controls['id']).setValue(value.id);
 	}
 
 	getName(ingredient) {
@@ -280,19 +356,18 @@ export class ScdComponent implements OnInit {
 					this.nameLabel = this.nameLabel + ' /';
 				}
 			});
-			if (this.ingredient !== undefined) {
+			if (ingredient !== undefined) {
 				if (ingredient.doseForm !== undefined && ingredient.doseForm !== null) {
 					this.nameLabel = this.nameLabel + ' ' + ingredient.doseForm.name;
 				} else {
-					this.ingredient.dose_form.forEach((d) => {
-						this.nameLabel = this.nameLabel + ' ' + d.name;
-					});
+					// this.ingredient.dose_form.forEach((d) => {
+					// 	this.nameLabel = this.nameLabel + ' ' + d.name;
+					// });
 				}
 			}
 		}
 	}
 	search_ingredient(code, id) {
-		console.log(this.selectedSCD);
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.controls.forEach((x, i) => this.removeIngredient(i));
 		this._ingredientService.get(code, { query: { id: id, sab: this.selectedSCD.sab } }).then((ingredients) => {
@@ -314,18 +389,54 @@ export class ScdComponent implements OnInit {
 		this._router.navigate([ '**' ]);
 	}
 	onSubmit() {
-		const payload = {
-			id: this.selectedSCD.id,
-			ingredients: this.ingredientForm.value
-		};
-		this._scdService.update(this.selectedSCD.id, payload, {}).then(
-			(pay) => {
-				console.log(pay);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+		if (this.selectedAction.id === 1) {
+			const payload = {
+				id: this.selectedSCD.id,
+				ingredients: this.ingredientForm.value
+			};
+			this._scdService.update(this.selectedSCD.id, payload, {}).then(
+				(pay) => {
+					console.log(pay);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		} else if (this.selectedAction.id === 2) {
+			const primaryIngredients = [];
+			const otherIngredients = [];
+			const payload = {
+				id: this.selectedSCD.id,
+				ingredients: this.ingredientForm.value
+			};
+			this.ingredientForm.value.ingredients.forEach((element, i) => {
+				if (element.existing === true) {
+					primaryIngredients.push(element);
+					element.inList = [];
+				} else {
+					otherIngredients.push(element);
+					element.inList = [];
+				}
+			});
+			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
+				(pay) => {
+					console.log(pay);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		} else if (this.selectedAction.id === 3) {
+			console.log(this.ingredientForm.value);
+			this._scdService.create(this.ingredientForm.value, { query: { nameLabel: this.nameLabel } }).then(
+				(pay) => {
+					console.log(pay);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		}
 	}
 
 	checkChanged(checked) {

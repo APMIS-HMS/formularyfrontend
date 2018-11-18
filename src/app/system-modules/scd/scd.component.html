@@ -9,9 +9,9 @@
   <div>
     <div class="form-group">
       <label for="scd_search">Search SCD</label>
-      <input formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')" type="text" class="form-control"
-        required>
-      <ul *ngIf="scdSuggest" class="input-sugestions">
+      <input *ngIf="selectedAction?.id !== 3" formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')"
+        type="text" class="form-control" required>
+      <ul *ngIf="scdSuggest && selectedAction?.id !== 3" class="input-sugestions">
         <li *ngIf="inLoading && SCDList.length === 0" class="input-sugestion">
           <div class="text-center">
             <i class="fa fa-spin fa-spinner"></i>
@@ -32,7 +32,7 @@
       <div style="padding-left: 15px;">
         <div class="form-check-inline">
           <label class="form-check-label" *ngFor="let action of actions; let idx = index">
-            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input" [checked]="selectedAction.id===action.id"
+            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input" [checked]="selectedAction?.id===action.id"
               [value]="action.id" name="optradio">{{action.description}}
           </label>
         </div>
@@ -67,20 +67,22 @@
 
                 <div *ngIf="selectedAction.id===2 || selectedAction.id === 3">
                   <div class="form-group">
-                    <label for="scd_search">Search Precise Ingredient</label>
-                    <input type="text" class="form-control" style="min-width: 600px;">
-                    <ul class="input-sugestions">
-                      <li class="input-sugestion">
+                    <label *ngIf="ingredient.value.existing === false" for="scd_search">Search Precise Ingredient</label>
+                    <input *ngIf="ingredient.value.existing === false" (focus)="onINKeydown('in', i)" (focusout)="onINKeydown('out', i)"
+                      formControlName="inName" type="text" class="form-control" style="min-width: 600px;">
+                    <ul *ngIf="inSuggest && activeIngredientIndex === i" class="input-sugestions">
+                      <li *ngIf="ingredientLoading && ingredient.value.inList.length === 0" class="input-sugestion">
                         <div class="text-center">
                           <i class="fa fa-spin fa-spinner"></i>
                         </div>
                       </li>
-                      <li class="input-sugestion">
+                      <li *ngIf="ingredientLoading && ingredient.value.inList.length === 0" class="input-sugestion">
                         <div class="text-center">
-                          <span>Search Result Here</span>
+                          <span>{{ inText }}</span>
                         </div>
                       </li>
-                      <li class="input-sugestion">Selected Search Here</li>
+                      <li *ngFor="let scd of ingredient.value.inList" (click)="in_suggestion_click(scd, ingredient)"
+                        class="input-sugestion">{{scd.name}}</li>
                     </ul>
                   </div>
                 </div>
@@ -132,7 +134,7 @@
         </div>
 
       </div>
-      <div *ngIf="hasIngredient">
+      <div *ngIf="ingredientForm.controls['ingredients'].length > 0">
         <div class="form-group ingredient-layout">
           <label>Dose Form</label>
           <select formControlName="doseForm" [compareWith]="compareFn">
