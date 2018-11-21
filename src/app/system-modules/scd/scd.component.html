@@ -31,8 +31,8 @@
     <div class="card-header wrapper-header">
       <div style="padding-left: 15px;">
         <div class="form-check-inline">
-          <label class="form-check-label" *ngFor="let action of actions; let idx = index">
-            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input" [checked]="selectedAction?.id===action.id"
+          <label class="form-check-label" style="margin-left: 10px; margin-right: 10px;" *ngFor="let action of actions; let idx = index">
+            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input"  [checked]="selectedAction?.id===action.id"
               [value]="action.id" name="optradio">{{action.description}}
           </label>
         </div>
@@ -147,11 +147,12 @@
           <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
         </div>
         <p *ngIf="!showEditIngredientName" class="text-left">{{nameLabel}}</p>
+        <input *ngIf="labelName" value="{{nameLabel}}" class="text-left" type="text">
         <!-- <button class="cta" type="submit"> Save</button> -->
       </div>
-      <div *ngIf="selectedAction.id === 4">
+      <div *ngIf="selectedActionid === 4">
         <div class="form-group">
-          <label for="ingredient-name">New Ingredient</label>
+          <label for="ingredient-na.me">New Ingredient</label>
           <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
         </div>
       </div>
