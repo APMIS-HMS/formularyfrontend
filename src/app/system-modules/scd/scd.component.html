@@ -32,7 +32,7 @@
       <div style="padding-left: 15px;">
         <div class="form-check-inline">
           <label class="form-check-label" style="margin-left: 10px; margin-right: 10px;" *ngFor="let action of actions; let idx = index">
-            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input"  [checked]="selectedAction?.id===action.id"
+            <input type="radio" (change)="onSelectionChange(action)" class="form-check-input" [checked]="selectedAction?.id===action.id"
               [value]="action.id" name="optradio">{{action.description}}
           </label>
         </div>
@@ -147,7 +147,7 @@
           <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
         </div>
         <p *ngIf="!showEditIngredientName" class="text-left">{{nameLabel}}</p>
-        <input *ngIf="labelName" value="{{nameLabel}}" class="text-left" type="text">
+        <input *ngIf="labelName" [value]="nameLabel" (input)="nameLabel = $event.target.value" class="text-left" type="text">
         <!-- <button class="cta" type="submit"> Save</button> -->
       </div>
       <div *ngIf="selectedActionid === 4">
@@ -156,7 +156,8 @@
           <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
         </div>
       </div>
-      <button *ngIf="selectedAction.id === 4 || ingredientForm.controls['ingredients'].length > 0" class="cta" type="submit">
+      <button *ngIf="selectedAction.id === 4 || (ingredientForm.controls['ingredients'].length > 0 && !showEditIngredientName)"
+        class="cta" type="submit">
         Save</button>
 
 
