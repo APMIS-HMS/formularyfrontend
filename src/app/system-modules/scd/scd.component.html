@@ -39,7 +39,7 @@
       </div>
       <div *ngIf="selectedAction?.id === 3" (click)="pushIngredient()" class="act-wrap">
         <i class="fa fa-plus" aria-hidden="true"></i>
-        <span>Create Ingredients</span>
+        <span>Start</span>
       </div>
     </div>
 
@@ -147,8 +147,16 @@
           <label class="custom-control-label" for="enableEdit">Enable Ingredient Name Edit</label>
         </div>
         <p *ngIf="!showEditIngredientName" class="text-left">{{nameLabel}}</p>
-        <button class="cta" type="submit"> Save</button>
+        <!-- <button class="cta" type="submit"> Save</button> -->
       </div>
+      <div *ngIf="selectedAction.id === 4">
+        <div class="form-group">
+          <label for="ingredient-name">New Ingredient</label>
+          <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
+        </div>
+      </div>
+      <button *ngIf="selectedAction.id === 4 || ingredientForm.controls['ingredients'].length > 0" class="cta" type="submit">
+        Save</button>
 
 
     </form>

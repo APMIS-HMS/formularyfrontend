@@ -45,9 +45,10 @@ export class ScdComponent implements OnInit {
 	strengthNumericIndex = 0;
 	activeIngredientIndex = -1;
 	actions = [
-		{ id: 1, description: 'Modify Ingredient' },
-		{ id: 2, description: 'Add Ingredient' },
-		{ id: 3, description: 'Create Ingredient' }
+		{ id: 1, description: 'Modify SCD' },
+		{ id: 2, description: 'SCD Plus' },
+		{ id: 3, description: 'Create New SCD' },
+		{ id: 4, description: 'Create Ingredient' }
 	];
 
 	selectedAction = null;
@@ -149,7 +150,8 @@ export class ScdComponent implements OnInit {
 					inName: [ '', [ <any>Validators.required ] ]
 				})
 			]),
-			doseForm: new FormControl()
+			doseForm: new FormControl(),
+			newIngredient: new FormControl()
 		});
 		this.subscribToFormControls();
 	}
@@ -394,7 +396,7 @@ export class ScdComponent implements OnInit {
 				id: this.selectedSCD.id,
 				ingredients: this.ingredientForm.value
 			};
-			this._scdService.update(this.selectedSCD.id, payload, {}).then(
+			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
 					console.log(pay);
 				},
@@ -427,8 +429,17 @@ export class ScdComponent implements OnInit {
 				}
 			);
 		} else if (this.selectedAction.id === 3) {
-			console.log(this.ingredientForm.value);
 			this._scdService.create(this.ingredientForm.value, { query: { nameLabel: this.nameLabel } }).then(
+				(pay) => {
+					console.log(pay);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		} else if (this.selectedAction.id === 4) {
+			console.log(this.ingredientForm.value.newIngredient);
+			this._scdService.create({ name: this.ingredientForm.value.newIngredient }, {}).then(
 				(pay) => {
 					console.log(pay);
 				},
