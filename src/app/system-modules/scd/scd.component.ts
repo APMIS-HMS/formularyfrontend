@@ -22,6 +22,7 @@ import { SCD } from '../interfaces/scd';
 export class ScdComponent implements OnInit {
 	@Output() homepage: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+	labelName = false;
 	showEditIngredientName = false;
 	suggest = false;
 	scdSuggest = false;
@@ -450,8 +451,11 @@ export class ScdComponent implements OnInit {
 		}
 	}
 
+
+
 	checkChanged(checked) {
 		this._store.dispatch(new systemActions.ToggleEnableIngredientNameEdit(checked));
+		this.labelName = !this.labelName;
 	}
 
 	compareFn(optionOne, optionTwo): boolean {
