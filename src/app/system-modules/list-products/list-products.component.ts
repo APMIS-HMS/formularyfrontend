@@ -1,23 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ProductService } from '../../services';
 @Component({
-  selector: 'app-list-products',
-  templateUrl: './list-products.component.html',
-  styleUrls: ['./list-products.component.scss']
+	selector: 'app-list-products',
+	templateUrl: './list-products.component.html',
+	styleUrls: [ './list-products.component.scss' ]
 })
 export class ListProductsComponent implements OnInit {
+	searchInput = new FormControl();
+	searchTypeInput = new FormControl();
+	brands: any = [];
 
-  searchInput = new FormControl();
-  searchTypeInput = new FormControl();
+	constructor(private _router: Router, private _productService: ProductService) {}
 
-  constructor(private _router: Router) { }
+	ngOnInit() {
+		this._productService
+			.find({
+				query: {
+					$select: [ 'STR', 'MAT', 'RXCUI' ]
+				}
+			})
+			.then((payload) => {
+				this.brands = payload;
+				console.log(payload);
+			});
+	}
 
-  ngOnInit() {
-  }
-
-  create_prod(){
-    this._router.navigate(['modules/add-product']); 
-  }
-
+	create_prod() {
+		this._router.navigate([ 'modules/add-product' ]);
+	}
 }
