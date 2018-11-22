@@ -1,4 +1,5 @@
 <div class="top-actions">
+
   <div class="inputs-wrap">
     <select class="srch-select" [formControl]="searchTypeInput">
       <option selected>All</option>
@@ -17,10 +18,17 @@
 <div class="return-label">50 entries returned for
   <span class="keyword">"parace"</span>
 </div>
-<ul class="return-lists">
-  <li class="return-list" *ngFor="let brand of brands.data">
-    <div class="main-returned">{{brand.STR}}</div>
-    <div class="other-returned">
-      <span class="val-label">Manufacturer:</span>{{brand?.MAT}}</div>
-  </li>
-</ul>
+<div>
+  <ul class="return-lists">
+    <li class="return-list" *ngFor="let brand of brands.data">
+      <div class="main-returned">{{brand.STR}}</div>
+      <div class="other-returned">
+        <span class="val-label">Manufacturer:</span>{{brand?.MAT}}</div>
+    </li>
+  </ul>
+
+  <!-- Pagination -->
+  <div style="padding: 30px;">
+      <app-pagination></app-pagination>
+  </div>
+</div>

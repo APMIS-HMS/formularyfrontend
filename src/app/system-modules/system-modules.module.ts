@@ -21,21 +21,25 @@ import { AddScdComponent } from './scd/add-scd/add-scd.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/system.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { OnlyMaterialModule } from '../shared-modules/only-material-module';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
 	declarations: [
 		SystemModulesComponent,
 		ListProductsComponent,
 		AddProductComponent,
-		PageNotFoundComponent,
+		PageNotFoundComponent,		
 		ScdComponent,
-		AddScdComponent
+		AddScdComponent,
+		PaginationComponent
 	],
 	exports: [],
 	imports: [
 		systemModulesRoutes,
 		ReactiveFormsModule,
 		FormsModule,
+		OnlyMaterialModule,
 		CommonModule,
 		StoreModule.forFeature('systems', reducer),
 		EffectsModule.forFeature([ DoseFormEffects ])
