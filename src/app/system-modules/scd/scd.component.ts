@@ -132,6 +132,7 @@ export class ScdComponent implements OnInit {
 		this.selectedAction = element;
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		this.clearFormArray(control);
+		this.resetSelectedSCD();
 	}
 
 	getStrengthUnits() {
@@ -145,7 +146,7 @@ export class ScdComponent implements OnInit {
 			ingredients: this.formBuilder.array([
 				this.formBuilder.group({
 					ingName: [ '', [ <any>Validators.required ] ],
-					strengths: new FormArray([ this.initStrength() ]),
+					strengths: new FormArray([ ...this.initStrength() ]),
 					id: [ '' ],
 					code: [ '' ],
 					inName: [ '', [ <any>Validators.required ] ]
@@ -177,7 +178,7 @@ export class ScdComponent implements OnInit {
 					? ''
 					: ingredient.name.split(' ').filter((x, i) => i < this.strengthNumericIndex).join(' ')
 			),
-			strengths: new FormArray([ this.initStrength(ingredient === undefined ? '' : ingredient) ]),
+			strengths: new FormArray([ ...this.initStrength(ingredient === undefined ? '' : ingredient) ]),
 			id: new FormControl(ingredient === undefined || ingredient.id === undefined ? '' : ingredient.id),
 			code: new FormControl(ingredient === undefined || ingredient.code === undefined ? '' : ingredient.code),
 			inName: new FormControl(''),
@@ -248,24 +249,73 @@ export class ScdComponent implements OnInit {
 	}
 
 	initStrength(strength?) {
-		return new FormGroup({
-			numStrength: new FormControl(
-				strength === undefined || strength.name === undefined
-					? ''
-					: strength.name.split(' ')[this.strengthNumericIndex]
-			),
-			strengthUnit: new FormControl(
-				strength === undefined || strength.name === undefined
-					? ''
-					: strength.name.split(' ')[this.strengthNumericIndex + 1]
-			),
-			id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
-		});
+		const strengthList: FormGroup[] = [];
+		if (strength && strength.numerator_unit && strength.denominator_unit) {
+			for (let i = 0; i < 2; i++) {
+				if (i === 0) {
+					strengthList.push(
+						new FormGroup({
+							numStrength: new FormControl(
+								strength === undefined || strength.name === undefined ? '' : strength.numerator_value
+							),
+							strengthUnit: new FormControl(
+								strength === undefined || strength.name === undefined ? '' : strength.numerator_unit
+							),
+							id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
+						})
+					);
+				} else if (i === 1) {
+					strengthList.push(
+						new FormGroup({
+							numStrength: new FormControl(
+								strength === undefined || strength.name === undefined ? '' : strength.denominator_value
+							),
+							strengthUnit: new FormControl(
+								strength === undefined || strength.name === undefined ? '' : strength.denominator_unit
+							),
+							id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
+						})
+					);
+				}
+			}
+		} else if (strength && strength.numerator_unit) {
+			strengthList.push(
+				new FormGroup({
+					numStrength: new FormControl(
+						strength === undefined || strength.name === undefined ? '' : strength.numerator_value
+					),
+					strengthUnit: new FormControl(
+						strength === undefined || strength.name === undefined ? '' : strength.numerator_unit
+					),
+					id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
+				})
+			);
+		} else {
+			strengthList.push(
+				new FormGroup({
+					numStrength: new FormControl(
+						strength === undefined || strength.name === undefined
+							? ''
+							: strength.name.split(' ')[this.strengthNumericIndex]
+					),
+					strengthUnit: new FormControl(
+						strength === undefined || strength.name === undefined
+							? ''
+							: strength.name.split(' ')[this.strengthNumericIndex + 1]
+					),
+					id: new FormControl(strength === undefined || strength.id === undefined ? '' : strength.id)
+				})
+			);
+		}
+		return strengthList;
 	}
 
 	pushStrength(j) {
 		const control = <FormArray>(<FormArray>this.ingredientForm.get('ingredients')).controls[j].get('strengths');
-		control.push(this.initStrength());
+		this.initStrength().forEach((i) => {
+			control.push(i);
+		});
+
 		this.subscribToFormControls();
 	}
 	removeStrength(i, j) {
@@ -313,6 +363,7 @@ export class ScdComponent implements OnInit {
 	}
 
 	scd_suggestion_click(value: SCD) {
+		this.resetSelectedSCD();
 		this._store.dispatch(new systemActions.SetSelectedSCD(value));
 	}
 
@@ -391,6 +442,14 @@ export class ScdComponent implements OnInit {
 	sign_in() {
 		this._router.navigate([ '**' ]);
 	}
+	resetSelectedSCD() {
+		this._store.dispatch(new systemActions.SetSelectedSCD(null));
+		this.selectedSCD = undefined;
+		this.ingredientForm.reset();
+		this.nameLabel = '';
+		const formContrl = <FormControl>this.ingredientForm.get('doseForm');
+		formContrl.setValue('');
+	}
 	onSubmit() {
 		if (this.selectedAction.id === 1) {
 			const payload = {
@@ -399,11 +458,9 @@ export class ScdComponent implements OnInit {
 			};
 			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
-					console.log(pay);
+					this.resetSelectedSCD();
 				},
-				(error) => {
-					console.log(error);
-				}
+				(error) => {}
 			);
 		} else if (this.selectedAction.id === 2) {
 			const primaryIngredients = [];
@@ -423,26 +480,21 @@ export class ScdComponent implements OnInit {
 			});
 			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
-					console.log(pay);
+					this.resetSelectedSCD();
 				},
-				(error) => {
-					console.log(error);
-				}
+				(error) => {}
 			);
 		} else if (this.selectedAction.id === 3) {
 			this._scdService.create(this.ingredientForm.value, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
-					console.log(pay);
+					this.resetSelectedSCD();
 				},
-				(error) => {
-					console.log(error);
-				}
+				(error) => {}
 			);
 		} else if (this.selectedAction.id === 4) {
-			console.log(this.ingredientForm.value.newIngredient);
 			this._scdService.create({ name: this.ingredientForm.value.newIngredient }, {}).then(
 				(pay) => {
-					console.log(pay);
+					this.resetSelectedSCD();
 				},
 				(error) => {
 					console.log(error);
@@ -450,8 +502,6 @@ export class ScdComponent implements OnInit {
 			);
 		}
 	}
-
-
 
 	checkChanged(checked) {
 		this._store.dispatch(new systemActions.ToggleEnableIngredientNameEdit(checked));

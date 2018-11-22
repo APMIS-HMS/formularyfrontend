@@ -9,7 +9,7 @@
   <div>
     <div class="form-group">
       <label for="scd_search">Search SCD</label>
-      <input *ngIf="selectedAction?.id !== 3" formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')"
+      <input *ngIf="selectedAction?.id < 3" formControlName="scd" (focus)="onSCDKeydown('in')" (focusout)="onSCDKeydown('out')"
         type="text" class="form-control" required>
       <ul *ngIf="scdSuggest && selectedAction?.id !== 3" class="input-sugestions">
         <li *ngIf="inLoading && SCDList.length === 0" class="input-sugestion">
@@ -89,7 +89,7 @@
 
                 <div class="form-group">
                   <label for="ingredient-name">Ingredient Name</label>
-                  <input formControlName="ingName" class="ingredient-name" style="min-width: 600px;" type="text">
+                  <input [readOnly]=true formControlName="ingName" class="ingredient-name" style="min-width: 600px;" type="text">
                 </div>
                 <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
                   <i class="fa fa-plus" aria-hidden="true"></i>
@@ -150,7 +150,7 @@
         <input *ngIf="labelName" [value]="nameLabel" (input)="nameLabel = $event.target.value" class="text-left" type="text">
         <!-- <button class="cta" type="submit"> Save</button> -->
       </div>
-      <div *ngIf="selectedActionid === 4">
+      <div *ngIf="selectedAction.id === 4">
         <div class="form-group">
           <label for="ingredient-na.me">New Ingredient</label>
           <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
