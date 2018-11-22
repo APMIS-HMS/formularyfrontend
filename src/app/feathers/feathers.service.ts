@@ -11,7 +11,7 @@ import * as authentication from 'feathers-authentication/client';
 // const RxJS = require('rxjs/Rx');
 
 // const HOST = 'https://formularyapi.azurewebsites.net'; // Your base server URL here
-const HOST = 'http://172.16.16.27:3030'; // Your base server URL here
+const HOST = 'http://localhost:3030'; // Your base server URL here
 
 @Injectable()
 export class RestService {

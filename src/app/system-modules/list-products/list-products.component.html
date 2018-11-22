@@ -29,6 +29,6 @@
 
   <!-- Pagination -->
   <div style="padding: 30px;">
-      <app-pagination></app-pagination>
+    <app-pagination (fireCurrentPage)="getCurrentPage($event)" [total]="total" [skip]="skip" [numberOfPages]="numberOfPages"></app-pagination>
   </div>
 </div>
