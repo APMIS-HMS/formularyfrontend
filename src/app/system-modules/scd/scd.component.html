@@ -45,7 +45,7 @@
 
     <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
       <div formArrayName="ingredients">
-        <div *ngFor="let ingredient of ingredientForm.controls['ingredients'].controls; let i = index;">
+        <div *ngFor="let ingredient of ingredientForm['controls'].ingredients['controls']; let i = index;">
           <div formGroupName="{{i}}">
             <div class="wrapper-ingredient">
               <div class="ingredient-layout control-group">
@@ -89,7 +89,8 @@
 
                 <div class="form-group">
                   <label for="ingredient-name">Ingredient Name</label>
-                  <input [readOnly]=true formControlName="ingName" class="ingredient-name" style="min-width: 600px;" type="text">
+                  <input [readOnly]=true formControlName="ingName" class="ingredient-name" style="min-width: 600px;"
+                    type="text">
                 </div>
                 <div (click)="pushStrength(i)" *ngIf="getStrengths(ingredient).length === 0">
                   <i class="fa fa-plus" aria-hidden="true"></i>
@@ -134,7 +135,7 @@
         </div>
 
       </div>
-      <div *ngIf="ingredientForm.controls['ingredients'].length > 0">
+      <div *ngIf="ingredientForm['controls'].ingredients['controls'].length > 0">
         <div class="form-group ingredient-layout">
           <label>Dose Form</label>
           <select formControlName="doseForm" [compareWith]="compareFn">
@@ -156,7 +157,7 @@
           <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
         </div>
       </div>
-      <button *ngIf="selectedAction.id === 4 || (ingredientForm.controls['ingredients'].length > 0 && !showEditIngredientName)"
+      <button *ngIf="selectedAction.id === 4 || (ingredientForm['controls'].ingredients['controls'].length > 0 && !showEditIngredientName)"
         class="cta" type="submit">
         Save</button>
 
