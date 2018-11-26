@@ -20,7 +20,7 @@
 </div>
 <div>
   <ul class="return-lists">
-    <li class="return-list" *ngFor="let brand of brands.data">
+    <li class="return-list" *ngFor="let brand of brands.data" (click)="editProduct(brand)">
       <div class="main-returned">{{brand.STR}}</div>
       <div class="other-returned">
         <span class="val-label">Manufacturer:</span>{{brand?.MAT}}</div>
