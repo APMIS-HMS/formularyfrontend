@@ -19,7 +19,6 @@ export class PaginationComponent implements OnInit {
 
 	moveNext() {
 		this.defaultPages.forEach((page) => {
-			console.log(this.numberOfPages);
 			if (page.id <= this.numberOfPages) {
 				page.id = page.id + 1;
 			}

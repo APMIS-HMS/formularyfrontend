@@ -15,7 +15,7 @@ export class ListProductsComponent implements OnInit {
 	skip = 0;
 	numberOfPages = 0;
 	defaultPages = [];
-	limit = 5000;
+	limit = 10;
 	constructor(private _router: Router, private _productService: ProductService) {}
 
 	ngOnInit() {
@@ -24,6 +24,9 @@ export class ListProductsComponent implements OnInit {
 
 	create_prod() {
 		this._router.navigate([ 'modules/add-product' ]);
+	}
+	editProduct(brand) {
+		this._router.navigate([ 'modules/add-product', brand._id ]);
 	}
 
 	getCurrentPage(event) {
@@ -41,7 +44,6 @@ export class ListProductsComponent implements OnInit {
 			})
 			.then((payload) => {
 				this.brands = payload;
-				console.log(payload);
 				this.total = payload.total;
 				this.skip = payload.skip;
 				this.numberOfPages = Math.ceil(payload.total / payload.limit);
