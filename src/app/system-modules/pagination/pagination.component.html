@@ -1,0 +1,16 @@
+<div class="pagination__wrapper">
+  <ul class="pagination" *ngIf="numberOfPages">
+    <li *ngIf="defaultPages[0].id > 0"><button class="prev" (click)="movePrevious()">&#10094;</button></li>
+    <li *ngFor="let i of defaultPages; let m = index">
+      <button (click)="selectCurrentPage(defaultPages[m].id)" [class.active]="selectedNumber === i.id">{{i.id+1}}</button>
+    </li>
+    <li *ngIf="numberOfPages > 3 && defaultPages[2].id < (numberOfPages-1)">
+      <span>...</span>
+    </li>
+    <li *ngIf="numberOfPages > 3">
+      <!-- last page -->
+      <button *ngIf="defaultPages[2].id < (numberOfPages-1)">{{numberOfPages}}</button>
+    </li>
+    <li *ngIf="defaultPages[2].id < (numberOfPages-1)"><button class=" next" title="next page" (click)="moveNext()">&#10095;</button></li>
+  </ul>
+</div>

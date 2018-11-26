@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { ScdService } from './services/scd.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 	declarations: [ AppComponent ],
@@ -20,6 +21,7 @@ import { ScdService } from './services/scd.service';
 		BrowserModule,
 		FormsModule,
 		ReactiveFormsModule,
+		BrowserAnimationsModule,
 		StoreModule.forRoot({}),
 		StoreDevtoolsModule.instrument({
 			name: 'APMIS formulary',

@@ -21,6 +21,7 @@ import { AddScdComponent } from './scd/add-scd/add-scd.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/system.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
 	declarations: [
@@ -29,7 +30,8 @@ import { EffectsModule } from '@ngrx/effects';
 		AddProductComponent,
 		PageNotFoundComponent,
 		ScdComponent,
-		AddScdComponent
+		AddScdComponent,
+		PaginationComponent
 	],
 	exports: [],
 	imports: [
