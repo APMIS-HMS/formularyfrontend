@@ -430,8 +430,8 @@ export class ScdComponent implements OnInit {
 			this.ingredient = ingredients.data;
 			ingredients.data.ingredient_strengths.forEach((ingredient_strength) => {
 				this.pushIngredient(ingredient_strength);
-				this.savingLoading = false;
 			});
+			this.savingLoading = false;
 			const formContrl = <FormControl>this.ingredientForm.get('doseForm');
 			formContrl.setValue(ingredients.data.dose_form.length === 0 ? '' : ingredients.data.dose_form[0]);
 			this.hasIngredient = true;
