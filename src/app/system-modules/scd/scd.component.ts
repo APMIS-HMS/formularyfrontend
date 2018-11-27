@@ -34,6 +34,7 @@ export class ScdComponent implements OnInit {
 	// inList: any[] = [];
 	inLoading = true;
 	ingredientLoading = true;
+	savingLoading = false;
 	hasIngredient = false;
 	scdText = 'Character must be greater than 3';
 	inText = 'Character must be greater than 3';
@@ -422,12 +423,14 @@ export class ScdComponent implements OnInit {
 		}
 	}
 	search_ingredient(code, id) {
+		this.savingLoading = true;
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.controls.forEach((x, i) => this.removeIngredient(i));
 		this._ingredientService.get(code, { query: { id: id, sab: this.selectedSCD.sab } }).then((ingredients) => {
 			this.ingredient = ingredients.data;
 			ingredients.data.ingredient_strengths.forEach((ingredient_strength) => {
 				this.pushIngredient(ingredient_strength);
+				this.savingLoading = false;
 			});
 			const formContrl = <FormControl>this.ingredientForm.get('doseForm');
 			formContrl.setValue(ingredients.data.dose_form.length === 0 ? '' : ingredients.data.dose_form[0]);
@@ -446,11 +449,12 @@ export class ScdComponent implements OnInit {
 		this._store.dispatch(new systemActions.SetSelectedSCD(null));
 		this.selectedSCD = undefined;
 		this.ingredientForm.reset();
-		this.nameLabel = '';
 		const formContrl = <FormControl>this.ingredientForm.get('doseForm');
 		formContrl.setValue('');
+		this.nameLabel = '';
 	}
 	onSubmit() {
+		this.savingLoading = true;
 		if (this.selectedAction.id === 1) {
 			const payload = {
 				id: this.selectedSCD.id,
@@ -459,8 +463,11 @@ export class ScdComponent implements OnInit {
 			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
 					this.resetSelectedSCD();
+					this.savingLoading = false;
 				},
-				(error) => {}
+				(error) => {
+					this.savingLoading = false;
+				}
 			);
 		} else if (this.selectedAction.id === 2) {
 			const primaryIngredients = [];
@@ -481,23 +488,31 @@ export class ScdComponent implements OnInit {
 			this._scdService.update(this.selectedSCD.id, payload, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
 					this.resetSelectedSCD();
+					this.savingLoading = false;
 				},
-				(error) => {}
+				(error) => {
+					this.savingLoading = false;
+				}
 			);
 		} else if (this.selectedAction.id === 3) {
 			this._scdService.create(this.ingredientForm.value, { query: { nameLabel: this.nameLabel } }).then(
 				(pay) => {
 					this.resetSelectedSCD();
+					this.savingLoading = false;
 				},
-				(error) => {}
+				(error) => {
+					this.savingLoading = false;
+				}
 			);
 		} else if (this.selectedAction.id === 4) {
 			this._scdService.create({ name: this.ingredientForm.value.newIngredient }, {}).then(
 				(pay) => {
 					this.resetSelectedSCD();
+					this.savingLoading = false;
 				},
 				(error) => {
 					console.log(error);
+					this.savingLoading = false;
 				}
 			);
 		}

@@ -155,3 +155,8 @@ p {
   cursor: pointer;
   padding-right: 5px;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}

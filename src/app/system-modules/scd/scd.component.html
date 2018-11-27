@@ -42,6 +42,11 @@
         <span>Start</span>
       </div>
     </div>
+    <li *ngIf="savingLoading" class="input-sugestion">
+      <div class="text-center">
+        <i class="fa fa-spin fa-spinner"></i>
+      </div>
+    </li>
 
     <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
       <div formArrayName="ingredients">
@@ -157,7 +162,7 @@
           <input formControlName="newIngredient" class="ingredient-name" style="min-width: 600px;" type="text">
         </div>
       </div>
-      <button *ngIf="selectedAction.id === 4 || (ingredientForm['controls'].ingredients['controls'].length > 0 && !showEditIngredientName)"
+      <button [class.disabled]="savingLoading" [disabled]="savingLoading" *ngIf="selectedAction.id === 4 || (ingredientForm['controls'].ingredients['controls'].length > 0 && !showEditIngredientName)"
         class="cta" type="submit">
         Save</button>
 
