@@ -446,12 +446,18 @@ export class ScdComponent implements OnInit {
 		this._router.navigate([ '**' ]);
 	}
 	resetSelectedSCD() {
-		this._store.dispatch(new systemActions.SetSelectedSCD(null));
-		this.selectedSCD = undefined;
-		this.ingredientForm.reset();
-		const formContrl = <FormControl>this.ingredientForm.get('doseForm');
-		formContrl.setValue('');
-		this.nameLabel = '';
+		try {
+			this._store.dispatch(new systemActions.SetSelectedSCD(null));
+			this.selectedSCD = undefined;
+			// this.ingredientForm.reset();
+			const formContrl = <FormControl>this.ingredientForm.get('doseForm');
+			formContrl.setValue('');
+			this.nameLabel = '';
+			const control = <FormArray>this.ingredientForm.get('ingredients');
+			this.clearFormArray(control);
+		} catch (error) {
+			console.log(error);
+		}
 	}
 	onSubmit() {
 		this.savingLoading = true;
