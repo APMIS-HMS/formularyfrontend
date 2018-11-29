@@ -427,6 +427,7 @@ export class ScdComponent implements OnInit {
 		const control = <FormArray>this.ingredientForm.get('ingredients');
 		control.controls.forEach((x, i) => this.removeIngredient(i));
 		this._ingredientService.get(code, { query: { id: id, sab: this.selectedSCD.sab } }).then((ingredients) => {
+			// console.log('back');
 			this.ingredient = ingredients.data;
 			ingredients.data.ingredient_strengths.forEach((ingredient_strength) => {
 				this.pushIngredient(ingredient_strength);
